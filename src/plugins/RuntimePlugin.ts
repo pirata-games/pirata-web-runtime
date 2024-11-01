@@ -70,6 +70,11 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               'pirata.azurewebsites.net': {
                 Hostname: 'pirata-foresaken.azurewebsites.net',
               },
+              'pirata-web-runtime.ashyflower-ec8d9205.westus2.azurecontainerapps.io':
+                {
+                  Hostname:
+                    'pirata-web-runtime.ashyflower-ec8d9205.westus2.azurecontainerapps.io',
+                },
               'pirata.games': {
                 Hostname: 'pirata.games',
               },
@@ -133,9 +138,15 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               CacheControl: {
                 'text\\/html': `private, max-age=${60 * 5}`,
                 'image\\/': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'application\\/javascript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'application\\/typescript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'text\\/css': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
+                'application\\/javascript': `public, max-age=${
+                  60 * 60 * 24 * 365
+                }, immutable`,
+                'application\\/typescript': `public, max-age=${
+                  60 * 60 * 24 * 365
+                }, immutable`,
+                'text\\/css': `public, max-age=${
+                  60 * 60 * 24 * 365
+                }, immutable`,
               },
             } as EaCDFSProcessor,
           },
@@ -206,7 +217,9 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               ConfigPath: './tailwind.config.ts',
               StylesTemplatePath: './apps/tailwind/styles.css',
               CacheControl: {
-                'text\\/css': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
+                'text\\/css': `public, max-age=${
+                  60 * 60 * 24 * 365
+                }, immutable`,
               },
             } as EaCTailwindProcessor,
           },
@@ -233,7 +246,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               DefaultFile: 'index.ts',
               Extensions: ['ts'],
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -242,7 +255,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'Local',
               FileRoot: './apps/assets/',
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -252,7 +265,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './apps/components/',
               Extensions: ['tsx'],
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -263,7 +276,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               DefaultFile: 'index.tsx',
               Extensions: ['tsx'],
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -273,7 +286,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './apps/islands/',
               Extensions: ['tsx'],
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -283,7 +296,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './circuits/',
               Extensions: ['.ts'],
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
+                '@fathym/eac-runtime/workers/local'
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
@@ -293,7 +306,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Package: '@fathym/atomic',
               Version: '',
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/jsr',
+                '@fathym/eac-runtime/workers/jsr'
               ),
             } as EaCJSRDistributedFileSystemDetails,
           },
@@ -303,7 +316,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Package: '@fathym/atomic-design-kit',
               Version: '',
               WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/jsr',
+                '@fathym/eac-runtime/workers/jsr'
               ),
             } as EaCJSRDistributedFileSystemDetails,
           },
@@ -313,14 +326,16 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Type: 'BaseHREF',
               Name: 'Base HREF',
-              Description: 'Adjusts the base HREF of a response based on configureation.',
+              Description:
+                'Adjusts the base HREF of a response based on configureation.',
             } as EaCBaseHREFModifierDetails,
           },
           keepAlive: {
             Details: {
               Type: 'KeepAlive',
               Name: 'Deno KV Cache',
-              Description: 'Lightweight cache to use that stores data in a DenoKV database.',
+              Description:
+                'Lightweight cache to use that stores data in a DenoKV database.',
               KeepAlivePath: '/_eac/alive',
             } as EaCKeepAliveModifierDetails,
           },
