@@ -15,7 +15,7 @@
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "clean:docker": "docker stop pirata-web-runtime || true && docker rm pirata-web-runtime || true",
     "deploy": "npx rimraf cov && deno task build && deno task test && npx ftm git",
-    "deploy:docker": "docker run --name pirata-web-runtime --network pirata-games-runtimes --env-file .env.docker -dp 127.0.0.1:3000:3000 pirata-web-runtime",
+    "deploy:docker": "docker run --name pirata-web-runtime --network pirata-games-runtimes --env-file .env.docker -dp 127.0.0.1:7100:7100 pirata-web-runtime",
     "dev": "deno run -A --watch=apps/,configs/,data/,routes/,src/,static/ dev.ts",
     "network:docker": "docker network create pirata-games-runtimes || true",
     "publish:check": "deno publish --dry-run --allow-dirty",
