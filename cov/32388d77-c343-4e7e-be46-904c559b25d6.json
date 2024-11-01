@@ -1,0 +1,11 @@
+{
+  "scriptId": "313",
+  "url": "file:///C:/MileHighInteractive/Source/pirata-games/pirata-web-runtime/tests/circuits/simple-tool.tests.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 776, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}
