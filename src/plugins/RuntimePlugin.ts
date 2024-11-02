@@ -57,23 +57,23 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             ResolverConfigs: {
               localhost: {
                 Hostname: 'localhost',
-                Port: config.Server.port || 8000,
+                Port: config.Server.port || 7100,
               },
-              'localhost:80': {
+              'localhost:7100': {
                 Hostname: 'localhost1',
-                Port: 80,
+                Port: 7100,
               },
               '127.0.0.1': {
                 Hostname: '127.0.0.1',
-                Port: config.Server.port || 8000,
+                Port: config.Server.port || 7100,
               },
-              '127.0.0.1:80': {
+              '127.0.0.1:7100': {
                 Hostname: '127.0.0.1',
-                Port: 80,
+                Port: 7100,
               },
               'host.docker.internal': {
                 Hostname: 'host.docker.internal',
-                Port: config.Server.port || 8000,
+                Port: config.Server.port || 7100,
               },
               'pirata-web-runtime.azurewebsites.net': {
                 Hostname: 'pirata-web-runtime.azurewebsites.net',
