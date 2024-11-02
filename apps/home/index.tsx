@@ -18,7 +18,7 @@ export default function Index({}: PageProps<IndexPageData>) {
     <div
       className="relative w-screen h-screen bg-cover bg-center bg-no-repeat"
       style={{
-        backgroundImage: `url('/assets/hero-background.png')`,
+        backgroundImage: `url('/assets/pirata-forsaken-background-crop.jpg')`,
       }}
     >
       {/* Sign In Button */}
@@ -26,14 +26,8 @@ export default function Index({}: PageProps<IndexPageData>) {
         Sign In
       </button>
 
-      {/* Logo */}
-      <div className="flex items-start justify-center h-full">
-        <img
-          src="/assets/PirataForsaken.png"
-          data-eac-bypass-base
-          alt="Pirata: Forsaken Logo"
-          className="landscape:mt-1 md:mt-[5rem] sm:mt-[2rem] mt-1 md:w-[600px] sm:w-[350px] w-[250px]"
-        />
+      <div className="flex items-center justify-center h-full">
+        {/* Content */}
       </div>
     </div>
   );
