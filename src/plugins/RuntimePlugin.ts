@@ -59,9 +59,17 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 Hostname: 'localhost',
                 Port: config.Server.port || 8000,
               },
+              'localhost:80': {
+                Hostname: 'localhost1',
+                Port: 80,
+              },
               '127.0.0.1': {
                 Hostname: '127.0.0.1',
                 Port: config.Server.port || 8000,
+              },
+              '127.0.0.1:80': {
+                Hostname: '127.0.0.1',
+                Port: 80,
               },
               'host.docker.internal': {
                 Hostname: 'host.docker.internal',
