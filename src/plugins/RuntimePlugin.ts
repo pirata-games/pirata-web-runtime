@@ -67,14 +67,12 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 Hostname: 'host.docker.internal',
                 Port: config.Server.port || 8000,
               },
-              'pirata.azurewebsites.net': {
-                Hostname: 'pirata-foresaken.azurewebsites.net',
+              'pirata-web-runtime.azurewebsites.net': {
+                Hostname: 'pirata-web-runtime.azurewebsites.net',
               },
-              'pirata-web-runtime.ashyflower-ec8d9205.westus2.azurecontainerapps.io':
-                {
-                  Hostname:
-                    'pirata-web-runtime.ashyflower-ec8d9205.westus2.azurecontainerapps.io',
-                },
+              'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net': {
+                Hostname: 'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net',
+              },
               'pirata.games': {
                 Hostname: 'pirata.games',
               },
