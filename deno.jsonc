@@ -29,7 +29,7 @@
     "@fathym/atomic-icons": "jsr:@fathym/atomic-icons@0",
     "@fathym/common": "jsr:@fathym/common@0",
     "@fathym/eac": "jsr:@fathym/eac@0",
-    "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0",
+    "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0.1.51",
     "@fathym/ioc": "jsr:@fathym/ioc@0",
     "@fathym/synaptic": "jsr:@fathym/synaptic@0",
     "html-to-text": "npm:html-to-text@9.0.5",
