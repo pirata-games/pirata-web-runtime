@@ -22,9 +22,9 @@ export default function Index({}: PageProps<IndexPageData>) {
       }}
     >
       {/* Sign In Button */}
-      <button className="absolute top-5 right-5 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200 text-sm sm:text-base">
+      {/* <button className="absolute top-5 right-5 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200 text-sm sm:text-base">
         Sign In
-      </button>
+      </button> */}
 
       <div className="flex items-center justify-center h-full">
         {/* Content */}
