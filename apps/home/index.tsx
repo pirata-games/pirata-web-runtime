@@ -1,34 +1,38 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { CompanyWebState } from '../../src/state/CompanyWebState.ts';
+import { Action } from '@fathym/atomic';
 
 export const IsIsland = true;
 
 // deno-lint-ignore ban-types
-type IndexPageData = {};
+type HomeIndexPageData = {};
 
-export const handler: EaCRuntimeHandlerResult<CompanyWebState, IndexPageData> =
-  {
-    GET: (_req, ctx) => {
-      return ctx.Render({});
-    },
-  };
+export const handler: EaCRuntimeHandlerResult<
+  CompanyWebState,
+  HomeIndexPageData
+> = {
+  GET: (_req, ctx) => {
+    return ctx.Render({});
+  },
+};
 
-export default function Index({}: PageProps<IndexPageData>) {
+export default function HomeIndex({}: PageProps<HomeIndexPageData>) {
   return (
     <div
-      className="relative w-screen h-screen bg-cover bg-center bg-no-repeat"
+      class="relative w-screen h-screen bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage: `url('/assets/pirata-forsaken-background-crop.jpg')`,
       }}
     >
       {/* Sign In Button */}
-      {/* <button className="absolute top-5 right-5 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200 text-sm sm:text-base">
+      <Action
+        href="/dashboard/game-world"
+        className="font-sans absolute top-5 right-5 bg-blue-900/90 text-cyan-400 py-2 px-4 rounded-lg border-2 border-cyan-600 shadow-lg shadow-cyan-800/50 hover:bg-cyan-600 hover:text-slate-900 hover:border-cyan-700 transition duration-200 text-sm sm:text-base tracking-wider"
+      >
         Sign In
-      </button> */}
+      </Action>
 
-      <div className="flex items-center justify-center h-full">
-        {/* Content */}
-      </div>
+      <div class="flex items-center justify-center h-full">{/* Content */}</div>
     </div>
   );
 }

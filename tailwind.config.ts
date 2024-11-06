@@ -6,8 +6,11 @@ export default {
   plugins: [unimportant],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Pirata One', 'sans-serif'],
+      },
       screens: {
-        'landscape': { 'raw': '(orientation: landscape)' },
+        landscape: { raw: '(orientation: landscape)' },
       },
     },
   },

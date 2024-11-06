@@ -12,6 +12,8 @@ import {
   EaCBaseHREFModifierDetails,
   EaCDFSProcessor,
   EaCKeepAliveModifierDetails,
+  EaCOAuthModifierDetails,
+  EaCOAuthProcessor,
   EaCPreactAppProcessor,
   EaCTailwindProcessor,
 } from '@fathym/eac/applications';
@@ -30,6 +32,7 @@ import {
 import { DefaultMyCoreProcessorHandlerResolver } from './DefaultMyCoreProcessorHandlerResolver.ts';
 import { IoCContainer } from '@fathym/ioc';
 import SynapticPlugin from './SynapticPlugin.ts';
+import { EaCAzureADB2CProviderDetails } from '@fathym/eac/identity';
 
 export default class RuntimePlugin implements EaCRuntimePlugin {
   constructor() {}
@@ -78,9 +81,11 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               'pirata-web-runtime.azurewebsites.net': {
                 Hostname: 'pirata-web-runtime.azurewebsites.net',
               },
-              'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net': {
-                Hostname: 'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net',
-              },
+              'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net':
+                {
+                  Hostname:
+                    'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net',
+                },
               'pirata.games': {
                 Hostname: 'pirata.games',
               },
@@ -92,27 +97,40 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               keepAlive: {
                 Priority: 5000,
               },
+              oauth: {
+                Priority: 8000,
+              },
             },
             ApplicationResolvers: {
               api: {
                 PathPattern: '/api*',
-                Priority: 100,
+                Priority: 500,
               },
               assets: {
                 PathPattern: '/assets*',
-                Priority: 200,
+                Priority: 500,
               },
               atomicIcons: {
                 PathPattern: '/icons*',
-                Priority: 200,
+                Priority: 500,
               },
               circuits: {
                 PathPattern: '/circuits*',
-                Priority: 100,
+                Priority: 500,
+              },
+              'game-world': {
+                PathPattern: '/dashboard/game-world*',
+                Priority: 500,
+                IsPrivate: true,
+                IsTriggerSignIn: true,
               },
               home: {
                 PathPattern: '*',
                 Priority: 100,
+              },
+              oauth: {
+                PathPattern: '/oauth/*',
+                Priority: 500,
               },
               tailwind: {
                 PathPattern: '/tailwind*',
@@ -166,7 +184,17 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'AtomicIcons',
               Config: {
                 IconSet: {
-                  IconMap: { add: 'https://api.iconify.design/gg:add.svg' },
+                  IconMap: {
+                    add: 'https://api.iconify.design/gg:add.svg',
+                    begin: 'https://api.iconify.design/fe:beginner.svg',
+                    check:
+                      'https://api.iconify.design/lets-icons:check-fill.svg',
+                    copy: 'https://api.iconify.design/solar:copy-outline.svg',
+                    delete:
+                      'https://api.iconify.design/material-symbols-light:delete.svg',
+                    edit: 'https://api.iconify.design/mdi:edit.svg',
+                    loading: 'https://api.iconify.design/mdi:loading.svg',
+                  },
                 },
                 Generate: true,
                 SpriteSheet: '/iconset',
@@ -183,6 +211,28 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'SynapticCircuits',
               IsCodeDriven: true,
             } as EaCSynapticCircuitsProcessor,
+          },
+          'game-world': {
+            Details: {
+              Name: 'Game World Site',
+              Description: 'Game World site.',
+            },
+            ModifierResolvers: {
+              baseHref: {
+                Priority: 10000,
+              },
+            },
+            Processor: {
+              Type: 'PreactApp',
+              AppDFSLookup: 'local:apps/game-world',
+              ComponentDFSLookups: [
+                ['local:apps/components', ['tsx']],
+                ['local:apps/game-world', ['tsx']],
+                ['local:apps/islands', ['tsx']],
+                ['jsr:@fathym/atomic', ['tsx']],
+                ['jsr:@fathym/atomic-design-kit', ['tsx']],
+              ],
+            } as EaCPreactAppProcessor,
           },
           home: {
             Details: {
@@ -206,6 +256,16 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               ],
             } as EaCPreactAppProcessor,
           },
+          oauth: {
+            Details: {
+              Name: 'OAuth Site',
+              Description: 'The site for use in OAuth workflows for a user',
+            },
+            Processor: {
+              Type: 'OAuth',
+              ProviderLookup: 'adb2c',
+            } as EaCOAuthProcessor,
+          },
           tailwind: {
             Details: {
               Name: 'Tailwind for the Site',
@@ -215,6 +275,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'Tailwind',
               DFSLookups: [
                 'local:apps/components',
+                'local:apps/game-world',
                 'local:apps/home',
                 'local:apps/islands',
                 'jsr:@fathym/atomic',
@@ -235,6 +296,30 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
           $circuitsDFSLookups: ['local:circuits'],
         },
         Databases: {
+          cache: {
+            Details: {
+              Type: 'DenoKV',
+              Name: 'Local Cache',
+              Description: 'The Deno KV database to use for local caching',
+              DenoKVPath: Deno.env.get('LOCAL_CACHE_DENO_KV_PATH') || undefined,
+            } as EaCDenoKVDatabaseDetails,
+          },
+          pirata: {
+            Details: {
+              Type: 'DenoKV',
+              Name: 'EaC DB',
+              Description: 'The Deno KV database to use for local caching',
+              DenoKVPath: Deno.env.get('EAC_DENO_KV_PATH') || undefined,
+            } as EaCDenoKVDatabaseDetails,
+          },
+          oauth: {
+            Details: {
+              Type: 'DenoKV',
+              Name: 'OAuth DB',
+              Description: 'The Deno KV database to use for local caching',
+              DenoKVPath: Deno.env.get('OAUTH_DENO_KV_PATH') || undefined,
+            } as EaCDenoKVDatabaseDetails,
+          },
           thinky: {
             Details: {
               Type: 'DenoKV',
@@ -269,6 +354,17 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Type: 'Local',
               FileRoot: './apps/components/',
+              Extensions: ['tsx'],
+              WorkerPath: import.meta.resolve(
+                '@fathym/eac-runtime/workers/local'
+              ),
+            } as EaCLocalDistributedFileSystemDetails,
+          },
+          'local:apps/game-world': {
+            Details: {
+              Type: 'Local',
+              FileRoot: './apps/game-world/',
+              DefaultFile: 'index.tsx',
               Extensions: ['tsx'],
               WorkerPath: import.meta.resolve(
                 '@fathym/eac-runtime/workers/local'
@@ -344,6 +440,33 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 'Lightweight cache to use that stores data in a DenoKV database.',
               KeepAlivePath: '/_eac/alive',
             } as EaCKeepAliveModifierDetails,
+          },
+          oauth: {
+            Details: {
+              Type: 'OAuth',
+              Name: 'OAuth',
+              Description:
+                'Used to restrict user access to various applications.',
+              ProviderLookup: 'adb2c',
+              SignInPath: '/oauth/signin',
+            } as EaCOAuthModifierDetails,
+          },
+        },
+        Providers: {
+          adb2c: {
+            DatabaseLookup: 'oauth',
+            Details: {
+              Name: 'Azure ADB2C OAuth Provider',
+              Description:
+                'The provider used to connect with our azure adb2c instance',
+              ClientID: Deno.env.get('AZURE_ADB2C_CLIENT_ID')!,
+              ClientSecret: Deno.env.get('AZURE_ADB2C_CLIENT_SECRET')!,
+              Scopes: ['openid', Deno.env.get('AZURE_ADB2C_CLIENT_ID')!],
+              Domain: Deno.env.get('AZURE_ADB2C_DOMAIN')!,
+              PolicyName: Deno.env.get('AZURE_ADB2C_POLICY')!,
+              TenantID: Deno.env.get('AZURE_ADB2C_TENANT_ID')!,
+              IsPrimary: true,
+            } as EaCAzureADB2CProviderDetails,
           },
         },
       } as EaCRuntimeEaC | EverythingAsCodeSynaptic,

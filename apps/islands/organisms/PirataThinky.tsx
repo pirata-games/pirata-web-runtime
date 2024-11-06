@@ -3,9 +3,9 @@ import { Thinky, type ThinkyProps } from '@fathym/atomic';
 
 export const IsIsland = true;
 
-export type CompanyThinkyProps = ThinkyProps;
+export type PirataThinkyProps = ThinkyProps;
 
-export default function CompanyThinky(props: CompanyThinkyProps) {
+export default function PirataThinky(props: PirataThinkyProps) {
   return (
     <Thinky
       renderMessage={(msg) => gfmRender(msg.content?.toString() || '')}

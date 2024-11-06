@@ -11,13 +11,18 @@ export default function Layout({
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Fathym EaC Runtime</title>
+        <title>Pirata Games - Pirata: Forsaken</title>
 
         <link
           rel="shortcut icon"
           type="image/png"
           href="/assets/PirataForsaken.png"
           data-eac-bypass-base
+        />
+
+        <link
+          href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
+          rel="stylesheet"
         />
 
         <link

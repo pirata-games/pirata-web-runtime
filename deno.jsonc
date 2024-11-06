@@ -25,11 +25,14 @@
     "version": "deno run -A jsr:@fathym/common@0/build/version"
   },
   "imports": {
-    "@fathym/atomic": "jsr:@fathym/atomic-design-kit@0.0.219",
+    "@fathym/atomic": "jsr:@fathym/atomic-design-kit@0.0.220",
     "@fathym/atomic-icons": "jsr:@fathym/atomic-icons@0.0.65",
     "@fathym/common": "jsr:@fathym/common@0.2.160",
     "@fathym/eac": "jsr:@fathym/eac@0.1.71",
-    "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0.1.51",
+    "@fathym/eac-runtime": "../../../../Fathym/source/github/fathym-deno/eac-runtime/mod.ts",
+    "@fathym/eac-runtime/workers/local": "../../../../Fathym/source/github/fathym-deno/eac-runtime/src/runtime/dfs/workers/EaCLocalDistributedFileSystemWorker.ts",
+    "@fathym/eac-runtime/workers/jsr": "../../../../Fathym/source/github/fathym-deno/eac-runtime/src/runtime/dfs/workers/EaCJSRDistributedFileSystemWorker.ts",
+    // "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0.1.51",
     "@fathym/ioc": "jsr:@fathym/ioc@0.0.12",
     "@fathym/synaptic": "jsr:@fathym/synaptic@0.0.187",
     "html-to-text": "npm:html-to-text@9.0.5",
@@ -45,34 +48,18 @@
     "tailwindcss/unimportant": "npm:tailwindcss-unimportant@2.1.1",
     "zod": "npm:zod@3.23.8"
   },
-  "exclude": [
-    "**/_eac-runtime/*"
-  ],
+  "exclude": ["**/_eac-runtime/*"],
   "lint": {
-    "include": [
-      "apps/",
-      "configs/",
-      "src/",
-      "tests/"
-    ],
+    "include": ["apps/", "configs/", "src/", "tests/"],
     "exclude": [],
     "rules": {
-      "tags": [
-        "recommended"
-      ],
-      "include": [
-        "ban-untagged-todo"
-      ],
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
       "exclude": []
     }
   },
   "fmt": {
-    "include": [
-      "apps/",
-      "configs/",
-      "src/",
-      "tests/"
-    ],
+    "include": ["apps/", "configs/", "src/", "tests/"],
     "exclude": [],
     "indentWidth": 2,
     "lineWidth": 100,
@@ -81,9 +68,7 @@
     "singleQuote": true,
     "useTabs": false
   },
-  "unstable": [
-    "kv"
-  ],
+  "unstable": ["kv"],
   "lock": false,
   "compilerOptions": {
     "jsx": "react-jsx",
