@@ -83,6 +83,16 @@ export default function Layout({
           href="/assets/PirataForsaken.png"
           data-eac-bypass-base
         />
+
+        <link
+          href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
+          rel="stylesheet"
+        />
+
         <link
           rel="stylesheet"
           href={`/tailwind/styles.css?Revision=${Revision}`}
@@ -90,7 +100,7 @@ export default function Layout({
         />
       </head>
 
-      <body class="bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden">
+      <body class="font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden">
         <PirataThinky class="h-[100vh]">
           <div class="flex flex-row h-full">
             {/* Sidebar with fixed width */}

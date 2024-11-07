@@ -253,6 +253,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 ['local:apps/islands', ['tsx']],
                 ['jsr:@fathym/atomic', ['tsx']],
                 ['jsr:@fathym/atomic-design-kit', ['tsx']],
+                ['jsr:@fathym/code-editor', ['tsx']],
               ],
             } as EaCPreactAppProcessor,
           },
@@ -280,6 +281,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 'local:apps/islands',
                 'jsr:@fathym/atomic',
                 'jsr:@fathym/atomic-design-kit',
+                'jsr:@fathym/code-editor',
               ],
               ConfigPath: './tailwind.config.ts',
               StylesTemplatePath: './apps/tailwind/styles.css',
@@ -421,6 +423,25 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 '@fathym/eac-runtime/workers/jsr'
               ),
             } as EaCJSRDistributedFileSystemDetails,
+          },
+          'jsr:@fathym/code-editor': {
+            Details: {
+              Type: 'Local',
+              FileRoot:
+                '../../../../../../Fathym/source/github/fathym-deno/code-editor/',
+              Extensions: ['.tsx'],
+              WorkerPath: import.meta.resolve(
+                '@fathym/eac-runtime/workers/local'
+              ),
+            } as EaCLocalDistributedFileSystemDetails,
+            // Details: {
+            //   Type: 'JSR',
+            //   Package: '@fathym/fathym/code-editor',
+            //   Version: '',
+            //   WorkerPath: import.meta.resolve(
+            //     '@fathym/eac-runtime/workers/jsr'
+            //   ),
+            // } as EaCJSRDistributedFileSystemDetails,
           },
         },
         Modifiers: {

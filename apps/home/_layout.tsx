@@ -21,6 +21,10 @@ export default function Layout({
         />
 
         <link
+          href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
           rel="stylesheet"
         />
@@ -32,7 +36,7 @@ export default function Layout({
         />
       </head>
 
-      <body class="bg-slate-50 dark:bg-slate-900 text-black dark:text-white">
+      <body class="font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white">
         <Component />
       </body>
     </html>

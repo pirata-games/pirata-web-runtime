@@ -7,7 +7,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Pirata One', 'sans-serif'],
+        lora: ['Lora', 'sans-serif'],
+        merriweather: ['Merriweather', 'sans-serif'],
+        pirata: ['Pirata One', 'sans-serif'],
+        roboto: ['Roboto', 'sans-serif'],
       },
       screens: {
         landscape: { raw: '(orientation: landscape)' },
