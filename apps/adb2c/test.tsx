@@ -1,5 +1,5 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../../src/state/PirataGamesWebState.ts';
+import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
 
 // deno-lint-ignore ban-types
 type ADB2CTestPageData = {};

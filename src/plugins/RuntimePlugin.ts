@@ -100,10 +100,10 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               },
             },
             ApplicationResolvers: {
-              // adb2c: {
-              //   PathPattern: '/adb2c/page/layouts*',
-              //   Priority: 500,
-              // },
+              adb2c: {
+                PathPattern: '/adb2c*',
+                Priority: 500,
+              },
               api: {
                 PathPattern: '/api*',
                 Priority: 500,
@@ -144,21 +144,14 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
         Applications: {
           adb2c: {
             Details: {
-              Name: 'adb2c Page Layout Assets',
-              Description: 'The static assets for use with adb2c page layouts.',
+              Name: 'ADB2C Page Layouts',
+              Description: 'ADB2C Page Layouts.',
             },
-            ModifierResolvers: {},
             Processor: {
-              Type: 'DFS',
-              DFSLookup: 'local:apps/adb2c',
-              CacheControl: {
-                'text\\/html': `private, max-age=${60 * 5}`,
-                'image\\/': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'application\\/javascript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'application\\/typescript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'text\\/css': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-              },
-            } as EaCDFSProcessor,
+              Type: 'PreactApp',
+              AppDFSLookup: 'local:apps/adb2c',
+              ComponentDFSLookups: [['local:apps/adb2c', ['tsx']]],
+            } as EaCPreactAppProcessor,
           },
           api: {
             Details: {
@@ -287,6 +280,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Processor: {
               Type: 'Tailwind',
               DFSLookups: [
+                'local:apps/adb2c',
                 'local:apps/components',
                 'local:apps/game-world',
                 'local:apps/home',

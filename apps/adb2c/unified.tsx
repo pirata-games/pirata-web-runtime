@@ -1,18 +1,18 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../../src/state/PirataGamesWebState.ts';
+import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
 
 // deno-lint-ignore ban-types
-type ADB2CExceptionPageData = {};
+type ADB2CUnifiedPageData = {};
 
 export const handler: EaCRuntimeHandlerResult<
   PirataGamesWebState,
-  ADB2CExceptionPageData
+  ADB2CUnifiedPageData
 > = {
   GET(_req, ctx) {
     return ctx.Render({});
   },
 };
 
-export default function ADB2CException({}: PageProps<ADB2CExceptionPageData>) {
+export default function ADB2CUnified({}: PageProps<ADB2CUnifiedPageData>) {
   return <div id='api' role='main'></div>;
 }

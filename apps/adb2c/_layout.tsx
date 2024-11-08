@@ -1,9 +1,9 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../../src/state/PirataGamesWebState.ts';
+import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
 
 export const handler: EaCRuntimeHandlerResult<PirataGamesWebState> = {
   async GET(_req, ctx) {
-    ctx.Data.BaseURL = ctx.Runtime.URLMatch.Base.slice(0, -1);
+    ctx.Data.BaseURL = new URL(ctx.Runtime.URLMatch.Base).origin;
 
     const resp = await ctx.Next();
 
@@ -15,9 +15,9 @@ export const handler: EaCRuntimeHandlerResult<PirataGamesWebState> = {
   },
 };
 
-export default function Layout({ Data, Component, Revision }: PageProps) {
+export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
   return (
-    <html>
+    <html data-eac-bypass-base>
       <head>
         <meta charset='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
@@ -43,13 +43,11 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
         <link
           rel='stylesheet'
           href={`${Data.BaseURL}/tailwind/styles.css?Revision=${Revision}`}
-          data-eac-bypass-base
         />
 
         <link
           rel='stylesheet'
           href={`${Data.BaseURL}/assets/adb2c/page/layouts/styles.css?Revision=${Revision}`}
-          data-eac-bypass-base
         />
       </head>
 
