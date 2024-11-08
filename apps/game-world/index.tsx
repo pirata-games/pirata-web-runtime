@@ -21,7 +21,7 @@ export default function GameWorldIndex({}: PageProps<GameWorldIndexPageData>) {
     <div
       class='relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900'
       style={{
-        backgroundImage: `url('/assets/pirata-forsaken-background-crop.png')`,
+        backgroundImage: `url('/assets/pirata-forsaken-background.png')`,
         backgroundBlendMode: 'overlay', // Or 'multiply', 'soft-light'
       }}
     >

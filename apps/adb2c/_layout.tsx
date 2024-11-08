@@ -56,8 +56,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
           <div
             class='relative w-screen h-screen bg-cover bg-center bg-no-repeat'
             style={{
-              backgroundImage:
-                `url('${Data.BaseURL}/assets/pirata-forsaken-background-no-logo.png')`,
+              backgroundImage: `url('${Data.BaseURL}/assets/pirata-forsaken-background.png')`,
             }}
           >
             <div class='flex items-center justify-center h-full'>
