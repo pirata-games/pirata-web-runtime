@@ -60,8 +60,8 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
             backgroundImage: `url('${Data.BaseURL}/assets/pirata-forsaken-background-no-logo.png')`,
           }}
         >
-          <div class='flex items-end justify-center h-full'>
-            <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 md:p-12 max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl mb-10'>
+          <div class='flex items-center justify-center h-full'>
+            <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 md:p-12 max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl mt-10'>
               <div class='w-[60%] m-auto'>
                 <img
                   class='companyLogo'
@@ -72,7 +72,6 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
               </div>
 
               <div class='
-                  [&_.error]:mt-4 
                   [&_.error]:text-red-500
 
                   [&_.error.pageLevel]:text-xl 
@@ -109,7 +108,7 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                         [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-lg 
                         dark:[&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-blue-400 
                       
-                      [&>#api>.localAccount>.entry>.buttons]:mt-4 
+                      [&>#api>.localAccount>.entry>.buttons]:mt-6 
                         [&>#api>.localAccount>.entry>.buttons>button]:bg-blue-600 
                         [&>#api>.localAccount>.entry>.buttons>button]:font-pirata 
                         [&>#api>.localAccount>.entry>.buttons>button]:font-semibold 
@@ -117,7 +116,7 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                         [&>#api>.localAccount>.entry>.buttons>button]:py-2 
                         [&>#api>.localAccount>.entry>.buttons>button]:rounded-md 
                         [&>#api>.localAccount>.entry>.buttons>button]:text-white 
-                        [&>#api>.localAccount>.entry>.buttons>button]:text-xl 
+                        [&>#api>.localAccount>.entry>.buttons>button]:text-2xl 
                         [&>#api>.localAccount>.entry>.buttons>button]:w-full 
                         
                     [&>#api>.localAccount>.divider]:hidden 
