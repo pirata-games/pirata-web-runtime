@@ -106,25 +106,26 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                         
                         [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:ml-2  
                         [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-blue-600 
-                        [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-sm 
+                        [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-lg 
                         dark:[&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-blue-400 
-
                       
                       [&>#api>.localAccount>.entry>.buttons]:mt-4 
-                        [&>#api>.localAccount>.entry>.buttons>button]:w-full 
                         [&>#api>.localAccount>.entry>.buttons>button]:bg-blue-600 
-                        [&>#api>.localAccount>.entry>.buttons>button]:hover:bg-blue-700 
-                        [&>#api>.localAccount>.entry>.buttons>button]:text-white 
+                        [&>#api>.localAccount>.entry>.buttons>button]:font-pirata 
                         [&>#api>.localAccount>.entry>.buttons>button]:font-semibold 
+                        [&>#api>.localAccount>.entry>.buttons>button]:hover:bg-blue-700 
                         [&>#api>.localAccount>.entry>.buttons>button]:py-2 
                         [&>#api>.localAccount>.entry>.buttons>button]:rounded-md 
+                        [&>#api>.localAccount>.entry>.buttons>button]:text-white 
+                        [&>#api>.localAccount>.entry>.buttons>button]:text-xl 
+                        [&>#api>.localAccount>.entry>.buttons>button]:w-full 
                         
                     [&>#api>.localAccount>.divider]:hidden 
                     
                     [&>#api>.localAccount>.create]:mt-4 
                       [&>#api>.localAccount>.create_#createAccount]:ml-2  
                       [&>#api>.localAccount>.create_#createAccount]:text-blue-600 
-                      [&>#api>.localAccount>.create_#createAccount]:text-sm 
+                      [&>#api>.localAccount>.create_#createAccount]:text-lg 
                       dark:[&>#api>.localAccount>.create_#createAccount]:text-blue-400 
                 '>
                 <Component />

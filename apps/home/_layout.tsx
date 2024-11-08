@@ -36,8 +36,10 @@ export default function Layout({
         />
       </head>
 
-      <body class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white'>
-        <Component />
+      <body>
+        <div class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white'>
+          <Component />
+        </div>
       </body>
     </html>
   );
