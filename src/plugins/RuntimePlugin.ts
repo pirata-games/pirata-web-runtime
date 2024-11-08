@@ -444,22 +444,22 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             } as EaCJSRDistributedFileSystemDetails,
           },
           'jsr:@fathym/code-editor': {
-            Details: {
-              Type: 'Local',
-              FileRoot: '../../../../../../Fathym/source/github/fathym-deno/code-editor/',
-              Extensions: ['.tsx'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local',
-              ),
-            } as EaCLocalDistributedFileSystemDetails,
             // Details: {
-            //   Type: 'JSR',
-            //   Package: '@fathym/fathym/code-editor',
-            //   Version: '',
+            //   Type: 'Local',
+            //   FileRoot: '../../../../../../Fathym/source/github/fathym-deno/code-editor/',
+            //   Extensions: ['.tsx'],
             //   WorkerPath: import.meta.resolve(
-            //     '@fathym/eac-runtime/workers/jsr'
+            //     '@fathym/eac-runtime/workers/local',
             //   ),
-            // } as EaCJSRDistributedFileSystemDetails,
+            // } as EaCLocalDistributedFileSystemDetails,
+            Details: {
+              Type: 'JSR',
+              Package: '@fathym/code-editor',
+              Version: '',
+              WorkerPath: import.meta.resolve(
+                '@fathym/eac-runtime/workers/jsr',
+              ),
+            } as EaCJSRDistributedFileSystemDetails,
           },
         },
         Modifiers: {
