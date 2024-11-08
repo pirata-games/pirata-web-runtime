@@ -29,7 +29,8 @@
     
     "@fathym/atomic": "jsr:@fathym/atomic-design-kit@0.0.220",
     "@fathym/atomic-icons": "jsr:@fathym/atomic-icons@0.0.65",
-    "@fathym/code-editor": "../../../../Fathym/source/github/fathym-deno/code-editor/mod.ts",
+    // "@fathym/code-editor": "../../../../Fathym/source/github/fathym-deno/code-editor/mod.ts",
+    "@fathym/code-editor": "jsr:@fathym/code-editor@0.0.18",
     "@fathym/common": "jsr:@fathym/common@0.2.160",
     "@fathym/eac": "jsr:@fathym/eac@0.1.71",
     // "@fathym/eac-runtime": "../../../../Fathym/source/github/fathym-deno/eac-runtime/mod.ts",
