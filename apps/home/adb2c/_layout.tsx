@@ -57,7 +57,7 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
         <div
           class='relative w-screen h-screen bg-cover bg-center bg-no-repeat'
           style={{
-            backgroundImage: `url('${Data.BaseURL}/assets/pirata-forsaken-background-no-logo.jpg')`,
+            backgroundImage: `url('${Data.BaseURL}/assets/pirata-forsaken-background-no-logo.png')`,
           }}
         >
           <div class='flex items-end justify-center h-full'>
@@ -72,28 +72,27 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
               </div>
 
               <div class='
-                  [&>#api>.heading>h1]:font-pirata 
-                  [&>#api>.heading>h1]:text-4xl 
-                  [&>#api>.heading>h1]:font-bold
+                  [&_.error]:mt-4 
+                  [&_.error]:text-red-500
+
+                  [&_.error.pageLevel]:text-xl 
                   
-                    [&_.error]:mt-4 
-                    [&_.error]:text-red-500
-                    [&_.error.pageLevel]:text-xl 
-                    [&_.error.itemLevel]:text-lg 
+                  [&_.error.itemLevel]:text-lg 
                     
-                    [&>#api>.localAccount>.error.pageLevel]:mt-4 
-                    [&>#api>.localAccount>.error.pageLevel]:text-lg 
-                    [&>#api>.localAccount>.error.pageLevel]:text-red-500
+                  [&>#api>.heading>h1]:hidden 
                         
                   [&>#api>.localAccount]:mt-4 
-                    [&>#api>.localAccount>.intro>h2]:font-pirata 
-                    [&>#api>.localAccount>.intro>h2]:text-2xl
+                    [&>#api>.localAccount>.intro>h2]:font-pirata
                     [&>#api>.localAccount>.intro>h2]:font-semibold
+                    [&>#api>.localAccount>.intro>h2]:text-xl
+                    [&>#api>.localAccount>.intro>h2]:tracking-wide
 
                     [&>#api>.localAccount>.entry]:mt-4
-                      [&>#api>.localAccount>.entry>.entry-item]:mt-4
-                        [&>#api>.localAccount>.entry>.entry-item_label]:text-xl  
-                        [&>#api>.localAccount>.entry>.entry-item_label]:font-semibold  
+                      [&>#api>.localAccount>.entry>.entry-item]:mt-6
+                        [&>#api>.localAccount>.entry>.entry-item_label]:font-bold  
+                        [&>#api>.localAccount>.entry>.entry-item_label]:font-pirata  
+                        [&>#api>.localAccount>.entry>.entry-item_label]:text-4xl  
+                        [&>#api>.localAccount>.entry>.entry-item_label]:tracking-wider
 
                         [&>#api>.localAccount>.entry>.entry-item_input]:w-full 
                         [&>#api>.localAccount>.entry>.entry-item_input]:border 
@@ -106,9 +105,9 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                         dark:[&>#api>.localAccount>.entry>.entry-item_input]:border-gray-600 
                         
                         [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:ml-2  
-                        [&>#api>.localAccount>.entry>.entry-item_a#forgotPassword]:text-blue-600 
-                        [&>#api>.localAccount>.entry>.entry-item_a#forgotPassword]:text-sm 
-                        dark:[&>#api>.localAccount>.entry>.entry-item_a#forgotPassword]:text-blue-400 
+                        [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-blue-600 
+                        [&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-sm 
+                        dark:[&>#api>.localAccount>.entry>.entry-item_#forgotPassword]:text-blue-400 
 
                       
                       [&>#api>.localAccount>.entry>.buttons]:mt-4 
@@ -123,6 +122,10 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                     [&>#api>.localAccount>.divider]:hidden 
                     
                     [&>#api>.localAccount>.create]:mt-4 
+                      [&>#api>.localAccount>.create_#createAccount]:ml-2  
+                      [&>#api>.localAccount>.create_#createAccount]:text-blue-600 
+                      [&>#api>.localAccount>.create_#createAccount]:text-sm 
+                      dark:[&>#api>.localAccount>.create_#createAccount]:text-blue-400 
                 '>
                 <Component />
               </div>

@@ -21,7 +21,7 @@ export default function HomeIndex({}: PageProps<HomeIndexPageData>) {
     <div
       class='relative w-screen h-screen bg-cover bg-center bg-no-repeat'
       style={{
-        backgroundImage: `url('/assets/pirata-forsaken-background-crop.jpg')`,
+        backgroundImage: `url('/assets/pirata-forsaken-background-crop.png')`,
       }}
     >
       {/* Sign In Button */}
