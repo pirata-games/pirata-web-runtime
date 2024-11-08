@@ -17,7 +17,7 @@ export const handler: EaCRuntimeHandlerResult<PirataGamesWebState> = {
 
 export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
   return (
-    <html data-eac-bypass-base>
+    <html>
       <head>
         <meta charset='utf-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />

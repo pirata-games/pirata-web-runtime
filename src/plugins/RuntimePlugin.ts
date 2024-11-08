@@ -150,6 +150,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Processor: {
               Type: 'PreactApp',
               AppDFSLookup: 'local:apps/adb2c',
+              BypassEaCBase: true,
               ComponentDFSLookups: [['local:apps/adb2c', ['tsx']]],
             } as EaCPreactAppProcessor,
           },
