@@ -1,25 +1,6 @@
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
-
-// deno-lint-ignore ban-types
-type ADB2CTestPageData = {};
-
-export const handler: EaCRuntimeHandlerResult<
-  PirataGamesWebState,
-  ADB2CTestPageData
-> = {
-  GET(_req, ctx) {
-    return ctx.Render({});
-  },
-};
-
-export default function ADB2CTest({}: PageProps<ADB2CTestPageData>) {
+export function ADB2CTestSignIn() {
   return (
-    <div
-      id='api'
-      data-name='Unified'
-      role='main'
-    >
+    <>
       <div class='heading'>
         <h1 role='heading'>Sign in</h1>
       </div>
@@ -98,6 +79,6 @@ export default function ADB2CTest({}: PageProps<ADB2CTestPageData>) {
           </p>
         </div>
       </form>
-    </div>
+    </>
   );
 }
