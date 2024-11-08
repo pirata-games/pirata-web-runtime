@@ -19,23 +19,24 @@ export const handler: EaCRuntimeHandlerResult<
 export default function GameWorldIndex({}: PageProps<GameWorldIndexPageData>) {
   return (
     <div
-      class="relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900"
+      class='relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900'
       style={{
         backgroundImage: `url('/assets/pirata-forsaken-background-crop.jpg')`,
         backgroundBlendMode: 'overlay', // Or 'multiply', 'soft-light'
       }}
     >
-      <div class="flex items-center justify-center h-full p-8">
+      <div class='flex items-center justify-center h-full p-8'>
         <OverlayDiffEditor
-          originalContent="Original code content here..."
-          modifiedContent="Modified code content here..."
+          originalContent='Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...'
+          modifiedContent='Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  Original code content here...  Modified code content here...  '
           onContentChange={(newContent) => {
             console.log('Modified Content:', newContent);
             // Save or process the modified content here
           }}
         />
-        {/*   
-        <div class="m-4 flex flex-col gap-4">        
+        {
+          /*
+        <div class="m-4 flex flex-col gap-4">
           <h1 class="text-3xl font-pirata">The Overview title</h1>
 
           <p>
@@ -99,7 +100,8 @@ export default function GameWorldIndex({}: PageProps<GameWorldIndexPageData>) {
             enim vestibulum commodo sed nec ante. Aenean erat nisi, porttitor
             nec volutpat non, tristique sed lectus.
           </p>
-        </div> */}
+        </div> */
+        }
       </div>
     </div>
   );

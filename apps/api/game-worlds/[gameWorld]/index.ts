@@ -23,9 +23,11 @@ export default {
     const gameWorld: EaCGameWorldAsCode = { Contents: {} };
     const prefix: Deno.KvKey = [...rootKey, 'GameWorlds', gameWorldLookup];
 
-    for await (const entry of kvStore.list<
-      EaCGameWorldDetails | EaCGameWorldContentDetails
-    >({ prefix })) {
+    for await (
+      const entry of kvStore.list<
+        EaCGameWorldDetails | EaCGameWorldContentDetails
+      >({ prefix })
+    ) {
       const gameWorldKey = entry.key;
 
       if (gameWorldKey.slice(-1)[0] === 'World') {
@@ -34,8 +36,7 @@ export default {
         const contentLookups = gameWorldKey
           .slice(prefix.length, -1)
           .filter((x) => x !== 'Contents');
-        let working: { Contents: Record<string, EaCGameWorldContentAsCode> } =
-          gameWorld;
+        let working: { Contents: Record<string, EaCGameWorldContentAsCode> } = gameWorld;
 
         for (const contentLookup of contentLookups) {
           if (!working.Contents) {
@@ -49,8 +50,8 @@ export default {
           working = working.Contents[contentLookup];
         }
 
-        working.Contents[contentLookups[contentLookups.length - 1]].Details =
-          entry.value as EaCGameWorldContentDetails;
+        working.Contents[contentLookups[contentLookups.length - 1]].Details = entry
+          .value as EaCGameWorldContentDetails;
       }
     }
 

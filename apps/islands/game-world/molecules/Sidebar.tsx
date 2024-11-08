@@ -25,24 +25,24 @@ export default function Sidebar({ items, ...props }: SidebarProps) {
   const renderSidebarItems = (items: SidebarItem[], indentLevel = 0) => {
     return items.map((item) => (
       <div key={item.id} class={`space-y-2 ${indentLevel > 0 ? `ml-${indentLevel * 2}` : ''}`}>
-        <div class="flex items-center">
+        <div class='flex items-center'>
           <a
             href={item.href}
-            class="flex-1 p-2 rounded hover:bg-slate-700 hover:text-white transition"
+            class='flex-1 p-2 rounded hover:bg-slate-700 hover:text-white transition'
           >
             {item.title}
           </a>
           {item.children && (
             <button
               onClick={() => toggleExpand(item.id)}
-              class="ml-2 p-2 rounded hover:bg-slate-700 transition"
+              class='ml-2 p-2 rounded hover:bg-slate-700 transition'
             >
               {expanded[item.id] ? '-' : '+'}
             </button>
           )}
         </div>
         {expanded[item.id] && item.children && (
-          <div class="space-y-2 mt-2">{renderSidebarItems(item.children, indentLevel + 1)}</div>
+          <div class='space-y-2 mt-2'>{renderSidebarItems(item.children, indentLevel + 1)}</div>
         )}
       </div>
     ));
@@ -53,11 +53,11 @@ export default function Sidebar({ items, ...props }: SidebarProps) {
       {...props}
       class={classSet(
         ['w-64 h-full bg-[rgba(30,41,59,0.8)] text-white flex flex-col p-4'],
-        props
+        props,
       )}
     >
-      <h2 class="text-xl font-semibold mb-6">Game World Manager</h2>
-      <div class="space-y-2">{renderSidebarItems(items)}</div>
+      <h2 class='text-xl font-semibold mb-6'>Game World Manager</h2>
+      <div class='space-y-2'>{renderSidebarItems(items)}</div>
     </nav>
   );
 }

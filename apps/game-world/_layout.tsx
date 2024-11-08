@@ -1,8 +1,6 @@
 // Import necessary Preact modules
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import Sidebar, {
-  SidebarItem,
-} from '../islands/game-world/molecules/Sidebar.tsx';
+import Sidebar, { SidebarItem } from '../islands/game-world/molecules/Sidebar.tsx';
 import { PirataGameWorldWebState } from '../../src/state/PirataGameWorldWebState.ts';
 import PirataThinky from '../islands/organisms/PirataThinky.tsx';
 
@@ -74,40 +72,40 @@ export default function Layout({
   return (
     <html>
       <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <title>Fathym EaC Runtime</title>
         <link
-          rel="shortcut icon"
-          type="image/png"
-          href="/assets/PirataForsaken.png"
+          rel='shortcut icon'
+          type='image/png'
+          href='/assets/PirataForsaken.png'
           data-eac-bypass-base
         />
 
         <link
-          href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
-          rel="stylesheet"
+          href='https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap'
+          rel='stylesheet'
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
-          rel="stylesheet"
+          href='https://fonts.googleapis.com/css2?family=Pirata+One&display=swap'
+          rel='stylesheet'
         />
 
         <link
-          rel="stylesheet"
+          rel='stylesheet'
           href={`/tailwind/styles.css?Revision=${Revision}`}
           data-eac-bypass-base
         />
       </head>
 
-      <body class="font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden">
-        <PirataThinky class="h-[100vh]">
-          <div class="flex flex-row h-full">
+      <body class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden'>
+        <PirataThinky class='h-[100vh]'>
+          <div class='flex flex-row h-full'>
             {/* Sidebar with fixed width */}
-            <Sidebar items={Data.SidebarItems} class="w-[300px] h-full" />
+            <Sidebar items={Data.SidebarItems} class='w-[300px] h-full' />
 
             {/* Main Content Area */}
-            <main class="flex-grow w-full overflow-y-auto">
+            <main class='flex-grow w-full overflow-y-auto'>
               <Component />
             </main>
           </div>

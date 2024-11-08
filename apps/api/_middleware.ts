@@ -5,7 +5,7 @@ export default {
   async GET(_req, ctx) {
     ctx.State.PirataKV = await ctx.Runtime.IoC.Resolve<Deno.Kv>(
       Deno.Kv,
-      'pirata'
+      'pirata',
     );
 
     ctx.State.RootKey = ['PirataGames', '00000000-0000-0000-0000-000000000000'];
