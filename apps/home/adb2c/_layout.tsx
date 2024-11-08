@@ -81,10 +81,7 @@ export default function Layout({ Data, Component, Revision }: PageProps) {
                   [&>#api>.heading>h1]:hidden 
                         
                   [&>#api>.localAccount]:mt-4 
-                    [&>#api>.localAccount>.intro>h2]:font-pirata
-                    [&>#api>.localAccount>.intro>h2]:font-semibold
-                    [&>#api>.localAccount>.intro>h2]:text-xl
-                    [&>#api>.localAccount>.intro>h2]:tracking-wide
+                    [&>#api>.localAccount>.intro>h2]:hidden
 
                     [&>#api>.localAccount>.entry]:mt-4
                       [&>#api>.localAccount>.entry>.entry-item]:mt-6
