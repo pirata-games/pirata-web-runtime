@@ -100,10 +100,10 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               },
             },
             ApplicationResolvers: {
-              adb2c: {
-                PathPattern: '/adb2c/page/layouts*',
-                Priority: 500,
-              },
+              // adb2c: {
+              //   PathPattern: '/adb2c/page/layouts*',
+              //   Priority: 500,
+              // },
               api: {
                 PathPattern: '/api*',
                 Priority: 500,
