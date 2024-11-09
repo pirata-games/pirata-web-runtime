@@ -60,10 +60,10 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
             }}
           >
             <div class='flex items-center justify-center h-full overflow-hidden'>
-              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pt-2 pb-2 md:px-8 md:pt-2 md:pb-4 max-h-[95%] max-w-[95%] sm:max-w-md md:max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl overflow-auto relative'>
-                <div class='w-[80%] m-auto sticky top-0 bg-white dark:bg-slate-800'>
+              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pb-2 md:px-8 md:pb-4 max-h-[95%] max-w-[95%] sm:max-w-md md:max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl overflow-auto relative'>
+                <div class='w-full sticky top-0 bg-white dark:bg-slate-800'>
                   <img
-                    class='companyLogo w-full'
+                    class='companyLogo w-[80%] m-auto '
                     data-tenant-branding-logo='true'
                     src={`${Data.BaseURL}/assets/PirataForsaken.png`}
                     alt='Pirata Games'
@@ -71,6 +71,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                 </div>
 
                 <div class='
+                    m-1
                     [&>#api_.error]:text-red-500
 
                     [&>#api_.error.pageLevel]:text-lg 
