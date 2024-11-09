@@ -73,28 +73,28 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                 <div class='
                     [&>#api_.error]:text-red-500
 
-                    [&>#api_.error.pageLevel]:text-xl 
+                    [&>#api_.error.pageLevel]:text-lg 
                     
-                    [&>#api_.error.itemLevel]:text-lg 
+                    [&>#api_.error.itemLevel]:text-base 
                       
                     [&>#api_.helpLink]:text-blue-600 
-                    [&>#api_.helpLink]:text-lg 
+                    [&>#api_.helpLink]:text-base 
                     dark:[&>#api_.helpLink]:text-blue-400 
                       
                     [&>#api_.heading]:font-semibold  
                     [&>#api_.heading]:font-pirata  
-                    [&>#api_.heading]:text-2xl  
+                    [&>#api_.heading]:text-xl  
                     [&>#api_.heading]:tracking-wide
                           
                     [&>#api_.intro]:font-semibold  
                     [&>#api_.intro]:font-pirata  
-                    [&>#api_.intro]:text-xl  
+                    [&>#api_.intro]:text-lg  
                     [&>#api_.intro]:tracking-wide
 
-                    [&>#api_form]:mt-4 
+                    [&>#api_form]:mt-2 
                       [&>#api_form_label]:font-bold  
                       [&>#api_form_label]:font-pirata  
-                      [&>#api_form_label]:text-3xl  
+                      [&>#api_form_label]:text-2xl  
                       [&>#api_form_label]:tracking-wider
 
                       [&>#api_form_input]:border 
@@ -108,15 +108,15 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                       [&>#api_form_input]:w-full 
                       dark:[&>#api_form_input]:border-gray-600 
                       
-                      [&>#api_form>.entry]:mt-4
-                        [&>#api_form>.entry>.entry-item]:mt-6
+                      [&>#api_form>.entry]:mt-2
+                        [&>#api_form>.entry>.entry-item]:mt-4
                         
-                      [&>#api_form_.Password]:mt-4
-                        [&>#api_form_.Password>.attrEntry]:mt-6
+                      [&>#api_form_.Password]:mt-2
+                        [&>#api_form_.Password>.attrEntry]:mt-4
 
                       [&>#api_form>.divider]:hidden 
                       
-                    [&>#api_.buttons]:mt-6 
+                    [&>#api_.buttons]:mt-4 
                     [&>#api_.buttons>button]:bg-blue-600 
                     [&>#api_.buttons>button]:font-pirata 
                     [&>#api_.buttons>button]:font-semibold 
@@ -124,9 +124,9 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                     [&>#api_.buttons>button]:py-2 
                     [&>#api_.buttons>button]:rounded-md 
                     [&>#api_.buttons>button]:text-white 
-                    [&>#api_.buttons>button]:text-2xl 
+                    [&>#api_.buttons>button]:text-xl 
                     [&>#api_.buttons>button]:w-full 
-                      [&>#api_.buttons>button:not(:first-child)]:mt-2  
+                      [&>#api_.buttons>button:not(:first-child)]:mt-1  
                       [&>#api_.buttons>button:not(:first-child)]:bg-transparent 
                       [&>#api_.buttons>button:not(:first-child)]:border 
                       [&>#api_.buttons>button:not(:first-child)]:border-gray-500 
@@ -134,20 +134,20 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                       dark:[&>#api_.buttons>button:not(:first-child)]:border-gray-400 
                       dark:[&>#api_.buttons>button:not(:first-child)]:hover:bg-gray-700
 
-                      [&>#api_.buttons>button:#emailVerificationControl_but_verify_code]:mt-2  
+                      [&>#api_.buttons>button:#emailVerificationControl_but_verify_code]:mt-1  
                       [&>#api_.buttons>button:#emailVerificationControl_but_verify_code]:bg-blue-600 
                       [&>#api_.buttons>button:#emailVerificationControl_but_verify_code]:hover:bg-blue-700 
                       [&>#api_.buttons>button:#emailVerificationControl_but_verify_code]:border-none
 
                     [&>#api_#forgotPassword]:ml-2  
                     [&>#api_#forgotPassword]:text-blue-600 
-                    [&>#api_#forgotPassword]:text-lg 
+                    [&>#api_#forgotPassword]:text-base 
                     dark:[&>#api_#forgotPassword]:text-blue-400 
                     
-                    [&>#api_.create]:mt-4 
+                    [&>#api_.create]:mt-2 
                       [&>#api_.create_#createAccount]:ml-2  
                       [&>#api_.create_#createAccount]:text-blue-600 
-                      [&>#api_.create_#createAccount]:text-lg 
+                      [&>#api_.create_#createAccount]:text-base 
                       dark:[&>#api_.create_#createAccount]:text-blue-400 
                   '>
                   {/* [&>#api_.Password_#newPassword[disabled="true"]]:hidden  */}
