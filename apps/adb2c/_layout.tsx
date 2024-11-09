@@ -60,7 +60,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
             }}
           >
             <div class='flex items-center justify-center h-full overflow-hidden'>
-              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pb-2 md:px-8 md:pb-4 max-h-[95%] max-w-[95%] sm:max-w-md md:max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl overflow-auto relative'>
+              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pb-2 md:px-8 md:pb-4 max-h-[95%] sm:max-h-[80%] md:max-h-[65%] max-w-[95%] sm:max-w-md md:max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl overflow-auto relative'>
                 <div class='w-full sticky top-0 bg-white dark:bg-slate-800'>
                   <img
                     class='companyLogo w-[80%] m-auto '
