@@ -1,7 +1,7 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
 // import { ADB2CTestSignIn } from '../components/test-signin.tsx';
-// import { ADB2CTestSignUp } from '../components/test-signup.tsx';
+import { ADB2CTestSignUp } from '../components/test-signup.tsx';
 
 // deno-lint-ignore ban-types
 type ADB2CUnifiedPageData = {};
@@ -17,11 +17,9 @@ export const handler: EaCRuntimeHandlerResult<
 
 export default function ADB2CUnified({}: PageProps<ADB2CUnifiedPageData>) {
   return (
-    <div id='api' role='main'>
-      {
-        /* <ADB2CTestSignIn />
-      <ADB2CTestSignUp /> */
-      }
+    <div id="api" role="main">
+      {/* <ADB2CTestSignIn /> */}
+      <ADB2CTestSignUp />
     </div>
   );
 }
