@@ -59,9 +59,9 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
               backgroundImage: `url('${Data.BaseURL}/assets/pirata-forsaken-background.png')`,
             }}
           >
-            <div class='flex items-center justify-center h-full'>
-              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pt-2 pb-2 md:px-8 md:pt-2 md:pb-4 max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl max-h-[95%] max-w-[95%]'>
-                <div class='w-[80%] m-auto'>
+            <div class='flex items-center justify-center h-full overflow-hidden'>
+              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pt-2 pb-2 md:px-8 md:pt-2 md:pb-4 max-h-[95%] max-w-[95%] sm:max-w-md md:max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl overflow-auto relative'>
+                <div class='w-[80%] m-auto sticky top-0 bg-white dark:bg-slate-800'>
                   <img
                     class='companyLogo w-full'
                     data-tenant-branding-logo='true'
@@ -71,7 +71,6 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                 </div>
 
                 <div class='
-                    overflow-y-auto
                     [&>#api_.error]:text-red-500
 
                     [&>#api_.error.pageLevel]:text-lg 
@@ -151,7 +150,6 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                       [&>#api_.create_#createAccount]:text-base 
                       dark:[&>#api_.create_#createAccount]:text-blue-400 
                   '>
-                  {/* [&>#api_.Password_#newPassword[disabled="true"]]:hidden  */}
                   <Component />
                 </div>
               </div>
