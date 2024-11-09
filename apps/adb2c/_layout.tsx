@@ -104,7 +104,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                       [&>#api_form_input]:px-4 
                       [&>#api_form_input]:py-2 
                       [&>#api_form_input]:rounded-md 
-                      [&>#api_form_input]:text-white
+                      [&>#api_form_input]:text-black
                       [&>#api_form_input]:w-full 
                       dark:[&>#api_form_input]:border-gray-600 
                       
