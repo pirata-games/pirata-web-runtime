@@ -1,15 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer utilities {
-  /* Hide .Password if it contains a disabled input#newPassword */
-  #api form .Password:has(input:disabled) {
-    display: none;
-  }
-
-  /* Hide .buttons if there is a .Password in #attributeList with a disabled input */
-  #api form #attributeList:has(.Password input:disabled) ~ .buttons {
-    display: none;
-  }
-}

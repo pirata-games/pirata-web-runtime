@@ -1,6 +1,26 @@
-html, body {
+html,
+body {
   min-height: 100vh;
   height: 100%;
+}
+
+/* Hide .Password if it contains a disabled input#newPassword */
+#api form .Password:has(input:disabled) {
+  display: none;
+}
+
+/* Hide .buttons if there is a .Password in #attributeList with a disabled input */
+#api
+  form
+  #attributeList:has(.Password input:disabled)
+  ~ .buttons
+  :not(:last-child) {
+  display: none;
+}
+
+/* Hide .buttons if there is a .Password in #attributeList with a disabled input */
+#api form #attributeList:has(#email:enabled) ~ .buttons :not(:last-child) {
+  display: none;
 }
 
 #api .working {

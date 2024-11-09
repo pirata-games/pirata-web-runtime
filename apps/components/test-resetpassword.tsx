@@ -1,4 +1,4 @@
-export function ADB2CTestSignIn() {
+export function ADB2CTestPasswordReset() {
   return (
     <>
       <div class='heading'>
@@ -69,13 +69,11 @@ export function ADB2CTestSignIn() {
                   <div class='verificationSuccessText'>
                     <div
                       id='emailVerificationControl_success_message'
-                      aria-hidden='false'
+                      aria-hidden='true'
                       role='alert'
-                      aria-label='Verification code has been sent to your inbox. Please copy it to the input box below.'
-                      style='display: inline;'
+                      aria-label=''
+                      style='display: none;'
                     >
-                      Verification code has been sent to your inbox. Please copy it to the input box
-                      below.
                     </div>
                   </div>
                   <div class='verificationErrorText error'>
@@ -98,13 +96,7 @@ export function ADB2CTestSignIn() {
                         <label id='email_label' for='email' class='required'>
                           Email Address
                         </label>
-                        <div
-                          class='error itemLevel'
-                          role='alert'
-                          aria-hidden='true'
-                          aria-label=''
-                        >
-                        </div>
+                        <div class='error itemLevel' role='alert'></div>
                         <input
                           id='email'
                           class='textInput'
@@ -126,8 +118,8 @@ export function ADB2CTestSignIn() {
                     </li>
                     <li
                       class='TextBox emailVerificationCode_li VerificationCode'
-                      aria-hidden='false'
-                      style='display: inline;'
+                      aria-hidden='true'
+                      style='display: none;'
                     >
                       <div class='attrEntry'>
                         <label
@@ -137,13 +129,7 @@ export function ADB2CTestSignIn() {
                         >
                           Verification Code
                         </label>
-                        <div
-                          class='error itemLevel'
-                          role='alert'
-                          aria-hidden='true'
-                          aria-label=''
-                        >
-                        </div>
+                        <div class='error itemLevel' role='alert'></div>
                         <input
                           id='emailVerificationCode'
                           class='textInput'
@@ -152,6 +138,7 @@ export function ADB2CTestSignIn() {
                           title='Enter your verification code'
                           aria-required='true'
                           autocomplete='off'
+                          disabled
                         />
                         <a
                           class='helpLink tiny'
@@ -167,9 +154,6 @@ export function ADB2CTestSignIn() {
                     class='working'
                     style='display: none;'
                     aria-hidden='true'
-                    aria-label='Please wait'
-                    aria-live='assertive'
-                    role='alert'
                   >
                   </div>
                   <div class='buttons'>
@@ -178,8 +162,8 @@ export function ADB2CTestSignIn() {
                       id='emailVerificationControl_but_send_code'
                       type='button'
                       aria-label='Send verification code'
-                      aria-hidden='true'
-                      style='display: none;'
+                      aria-hidden='false'
+                      style='display: inline;'
                     >
                       Send verification code
                     </button>
@@ -188,8 +172,8 @@ export function ADB2CTestSignIn() {
                       id='emailVerificationControl_but_verify_code'
                       type='button'
                       aria-label='Verify code'
-                      aria-hidden='false'
-                      style='display: inline;'
+                      aria-hidden='true'
+                      style='display: none;'
                     >
                       Verify code
                     </button>
@@ -198,8 +182,8 @@ export function ADB2CTestSignIn() {
                       id='emailVerificationControl_but_send_new_code'
                       type='button'
                       aria-label='Send new code'
-                      aria-hidden='false'
-                      style='display: inline;'
+                      aria-hidden='true'
+                      style='display: none;'
                     >
                       Send new code
                     </button>
@@ -220,68 +204,6 @@ export function ADB2CTestSignIn() {
                 </a>
               </div>
             </li>
-            <li class='Password newPassword_li'>
-              <div class='attrEntry'>
-                <label
-                  id='newPassword_label'
-                  for='newPassword'
-                  class='required'
-                >
-                  New Password
-                </label>
-                <div class='error itemLevel' role='alert'></div>
-                <input
-                  id='newPassword'
-                  class='textInput'
-                  type='password'
-                  placeholder='New Password'
-                  title='Enter new password'
-                  autocomplete='new-password'
-                  aria-required='true'
-                  aria-disabled='true'
-                  disabled
-                  tabindex={-1}
-                />
-                <a
-                  class='helpLink tiny'
-                  href='javascript:void(0)'
-                  data-help='Enter new password'
-                >
-                  What is this?
-                </a>
-              </div>
-            </li>
-            <li class='Password reenterPassword_li'>
-              <div class='attrEntry'>
-                <label
-                  id='reenterPassword_label'
-                  for='reenterPassword'
-                  class='required'
-                >
-                  Confirm New Password
-                </label>
-                <div class='error itemLevel' role='alert'></div>
-                <input
-                  id='reenterPassword'
-                  class='textInput'
-                  type='password'
-                  placeholder='Confirm New Password'
-                  title='Confirm new password'
-                  autocomplete='new-password'
-                  aria-required='true'
-                  aria-disabled='true'
-                  disabled
-                  tabindex={-1}
-                />
-                <a
-                  class='helpLink tiny'
-                  href='javascript:void(0)'
-                  data-help='Confirm new password'
-                >
-                  What is this?
-                </a>
-              </div>
-            </li>
           </ul>
         </div>
         <div class='buttons'>
@@ -290,10 +212,10 @@ export function ADB2CTestSignIn() {
             type='submit'
             form='attributeVerification'
             aria-disabled='true'
-            aria-label='Create'
+            aria-label='Continue'
             tabindex={-1}
           >
-            Create
+            Continue
           </button>
           <button id='cancel' aria-label='Cancel' formnovalidate>
             Cancel
