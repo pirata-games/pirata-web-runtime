@@ -52,7 +52,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
       </head>
 
       <body>
-        <div class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-full'>
+        <div class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-full overflow-hidden'>
           <div
             class='relative w-screen h-screen bg-cover bg-center bg-no-repeat'
             style={{
@@ -60,7 +60,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
             }}
           >
             <div class='flex items-center justify-center h-full'>
-              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8 md:p-12 max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl mt-10'>
+              <div class='bg-white dark:bg-slate-800 shadow-lg rounded-lg px-4 pt-2 pb-2 md:px-8 md:pt-2 md:pb-4 max-w-lg w-full transform transition-transform duration-300 hover:scale-115 hover:shadow-2xl max-h-[95%] max-w-[95%]'>
                 <div class='w-[80%] m-auto'>
                   <img
                     class='companyLogo w-full'
@@ -71,6 +71,7 @@ export default function ADB2CLayout({ Data, Component, Revision }: PageProps) {
                 </div>
 
                 <div class='
+                    overflow-y-auto
                     [&>#api_.error]:text-red-500
 
                     [&>#api_.error.pageLevel]:text-lg 
