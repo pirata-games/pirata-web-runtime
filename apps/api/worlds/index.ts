@@ -2,7 +2,6 @@ import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
 import { GamesAPIState } from '../../../src/state/GamesAPIState.ts';
 import { EaCGameWorldDetails } from '../../../src/eac/EaCGameWorldDetails.ts';
 import { EaCGameWorldAsCode } from '../../../src/eac/EaCGameWorldAsCode.ts';
-import { CreateGameWorldSchema } from '../../../src/api/eac/CreateGameWorldSchema.ts';
 
 export default {
   /** Lists all game worlds stored in the Deno KV, returning them in JSON format */

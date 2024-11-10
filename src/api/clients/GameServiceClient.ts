@@ -1,6 +1,6 @@
-import { Status } from '@fathym/eac-api';
+import { EaCStatus, UserEaCRecord } from '@fathym/eac-api';
 import { EaCBaseClient } from '@fathym/eac-api/client';
-import { establishHeaders } from '@fathym/common';
+import { establishHeaders, Status } from '@fathym/common';
 import { EaCGameWorldAsCode } from '../../eac/EaCGameWorldAsCode.ts';
 import { EverythingAsCodeGame } from '../../eac/EverythingAsCodeGame.ts';
 
@@ -30,7 +30,7 @@ export class GameServiceClient extends EaCBaseClient {
      * @param createReq - The game data to create.
      * @returns {Promise<Status>} The status of the creation request.
      */
-    Create: async (createReq: EverythingAsCodeGame): Promise<Status> => {
+    Create: async (createReq: EverythingAsCodeGame): Promise<EaCStatus> => {
       const response = await fetch(this.loadClientUrl(`games`), {
         method: 'POST',
         headers: this.loadHeaders(),
@@ -42,11 +42,10 @@ export class GameServiceClient extends EaCBaseClient {
 
     /**
      * Deletes a specified game.
-     * @param gameLookup - The unique identifier for the game to delete.
      * @returns {Promise<Status>} The status of the deletion request.
      */
-    Delete: async (gameLookup: string): Promise<Status> => {
-      const response = await fetch(this.loadClientUrl(`games/${gameLookup}`), {
+    Delete: async (): Promise<Status> => {
+      const response = await fetch(this.loadClientUrl(`games`), {
         method: 'DELETE',
         headers: this.loadHeaders(),
       });
@@ -56,11 +55,10 @@ export class GameServiceClient extends EaCBaseClient {
 
     /**
      * Retrieves a specific game.
-     * @param gameLookup - The unique identifier for the game to retrieve.
      * @returns {Promise<EverythingAsCodeGame>} The game data.
      */
-    Get: async (gameLookup: string): Promise<EverythingAsCodeGame> => {
-      const response = await fetch(this.loadClientUrl(`games/${gameLookup}`), {
+    Get: async (): Promise<EverythingAsCodeGame> => {
+      const response = await fetch(this.loadClientUrl(`games`), {
         method: 'GET',
         headers: this.loadHeaders(),
       });
@@ -72,8 +70,8 @@ export class GameServiceClient extends EaCBaseClient {
      * Lists all games.
      * @returns {Promise<EverythingAsCodeGame[]>} An array of game data.
      */
-    List: async (): Promise<EverythingAsCodeGame[]> => {
-      const response = await fetch(this.loadClientUrl(`games`), {
+    List: async (): Promise<UserEaCRecord[]> => {
+      const response = await fetch(this.loadClientUrl(`games/list`), {
         method: 'GET',
         headers: this.loadHeaders(),
       });
@@ -83,15 +81,13 @@ export class GameServiceClient extends EaCBaseClient {
 
     /**
      * Updates a specific game with new data.
-     * @param gameLookup - The unique identifier for the game to update.
      * @param updateReq - The updated game data.
      * @returns {Promise<Status>} The status of the update request.
      */
     Update: async (
-      gameLookup: string,
       updateReq: EverythingAsCodeGame
-    ): Promise<Status> => {
-      const response = await fetch(this.loadClientUrl(`games/${gameLookup}`), {
+    ): Promise<EaCStatus> => {
+      const response = await fetch(this.loadClientUrl(`games`), {
         method: 'PUT',
         headers: this.loadHeaders(),
         body: JSON.stringify(updateReq),

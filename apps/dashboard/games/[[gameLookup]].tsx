@@ -1,3 +1,5 @@
+import { Status } from '@fathym/common';
+import { UserEaCRecord } from '@fathym/eac-api';
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { useState } from 'preact/hooks';
 import { EverythingAsCodeGame } from '../../../src/eac/EverythingAsCodeGame.ts';
@@ -7,7 +9,7 @@ import { setActiveGame } from '../../../src/state/gameWebSetupLoaderMiddleware.t
 export const IsIsland = true;
 
 type GameIndexPageData = {
-  Games: EverythingAsCodeGame[];
+  Games: UserEaCRecord[];
   ActiveGameLookup?: string;
 };
 
@@ -16,7 +18,9 @@ export const handler: EaCRuntimeHandlerResult<
   GameIndexPageData
 > = {
   async GET(_req, ctx) {
-    const games = await ctx.State.GamesClient!.Games.List();
+    const games = ctx.State.GameLookup
+      ? await ctx.State.GamesClient!.Games.List()
+      : [];
 
     return ctx.Render({
       Games: games,
@@ -26,29 +30,37 @@ export const handler: EaCRuntimeHandlerResult<
 
   async POST(req, ctx) {
     const formData = await req.formData();
-    const gameLookup = formData.get('GameLookup') as string;
+    let gameLookup = formData.get('GameLookup') as string;
     const name = formData.get('Name') as string;
     const description = formData.get('Description') as string;
 
     if (gameLookup) {
-      await ctx.State.GamesClient!.Games.Update(gameLookup, {
+      const gameStatus = await ctx.State.GamesClient!.Games.Update(gameLookup, {
         Details: {
           Name: name,
           Description: description,
         },
         GameWorlds: {},
       });
+
+      gameLookup = gameStatus.EnterpriseLookup;
     } else {
-      await ctx.State.GamesClient!.Games.Create({
+      const gameStatus = await ctx.State.GamesClient!.Games.Create({
         Details: {
           Name: name,
           Description: description,
         },
         GameWorlds: {},
       });
+
+      gameLookup = gameStatus.EnterpriseLookup;
     }
 
-    return Response.redirect('/dashboard/games');
+    await setActiveGame(ctx.State, gameLookup);
+
+    return Response.redirect(
+      ctx.Runtime.URLMatch.FromOrigin('/dashboard/games')
+    );
   },
 
   async PUT(req, ctx) {
@@ -58,7 +70,7 @@ export const handler: EaCRuntimeHandlerResult<
       await setActiveGame(ctx.State, GameLookup);
     }
 
-    return Response.json(Status);
+    return Response.json(true);
   },
 
   async DELETE(_req, ctx) {
@@ -68,7 +80,7 @@ export const handler: EaCRuntimeHandlerResult<
       await ctx.State.GamesClient!.Games.Delete(gameLookup);
     }
 
-    return Response.redirect('/dashboard/games');
+    return Response.json(true);
   },
 };
 
@@ -123,7 +135,7 @@ export default function GamesIndex({ Data }: PageProps<GameIndexPageData>) {
             name="Name"
             value={editGame.Name}
             onChange={(e) => setEditGame({ ...editGame, Name: e.target.value })}
-            class="w-full p-2 border rounded"
+            class="w-full p-2 border rounded text-black"
             required
           />
         </div>
@@ -135,7 +147,7 @@ export default function GamesIndex({ Data }: PageProps<GameIndexPageData>) {
             onChange={(e) =>
               setEditGame({ ...editGame, Description: e.target.value })
             }
-            class="w-full p-2 border rounded"
+            class="w-full p-2 border rounded text-black"
             required
           />
         </div>
@@ -143,9 +155,9 @@ export default function GamesIndex({ Data }: PageProps<GameIndexPageData>) {
           type="submit"
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
-          {isEditing ? 'Update Game' : 'Create Game'}
+          {editGame.GameLookup ? 'Update Game' : 'Create Game'}
         </button>
-        {isEditing && (
+        {editGame.GameLookup && (
           <button
             type="button"
             onClick={() => {

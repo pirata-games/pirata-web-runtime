@@ -23,7 +23,7 @@ export const handler: EaCRuntimeHandlerResult<
   GameWorldIndexPageData
 > = {
   async GET(_req, ctx) {
-    if (ctx.State.GamesJWT) {
+    if (ctx.State.GameLookup) {
       const gameWorlds = await ctx.State.GamesClient!.Worlds.List();
 
       return ctx.Render({
@@ -40,7 +40,10 @@ export const handler: EaCRuntimeHandlerResult<
         },
       });
     } else {
-      return Response.redirect('/dashboard/game', STATUS_CODE.TemporaryRedirect);
+      return Response.redirect(
+        ctx.Runtime.URLMatch.FromOrigin('/dashboard/games'),
+        STATUS_CODE.TemporaryRedirect
+      );
     }
   },
 };

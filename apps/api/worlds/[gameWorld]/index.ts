@@ -4,7 +4,6 @@ import { EaCGameWorldAsCode } from '../../../../src/eac/EaCGameWorldAsCode.ts';
 import { EaCGameWorldContentAsCode } from '../../../../src/eac/content/EaCGameWorldContentAsCode.ts';
 import { EaCGameWorldContentDetails } from '../../../../src/eac/content/EaCGameWorldContentDetails.ts';
 import { EaCGameWorldDetails } from '../../../../src/eac/EaCGameWorldDetails.ts';
-import { UpdateGameWorldSchema } from '../../../../src/api/eac/UpdateGameWorldSchema.ts';
 
 export default {
   /** Retrieves a specific game world based on the lookup key */

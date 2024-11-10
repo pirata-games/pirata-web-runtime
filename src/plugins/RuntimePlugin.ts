@@ -323,7 +323,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'DenoKV',
               Name: 'EaC DB',
               Description: 'The Deno KV database to use for local caching',
-              DenoKVPath: Deno.env.get('EAC_DENO_KV_PATH') || undefined,
+              DenoKVPath: Deno.env.get('GAME_DENO_KV_PATH') || undefined,
             } as EaCDenoKVDatabaseDetails,
           },
           oauth: {
