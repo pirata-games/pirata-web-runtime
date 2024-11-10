@@ -8,6 +8,7 @@ import { GamesWebState } from '../../../src/state/GamesWebState.ts';
 import { GameServiceClient } from '../../../src/api/clients/GameServiceClient.ts';
 import { setActiveGame } from '../../../src/state/gameWebSetupLoaderMiddleware.ts';
 import { Action, ActionStyleTypes, Input } from '@fathym/atomic';
+import { classSet } from '../../../../../../../Fathym/source/github/fathym-deno/code-editor/src/src.deps.ts';
 
 export const IsIsland = true;
 
@@ -66,9 +67,11 @@ export const handler: EaCRuntimeHandlerResult<
     );
   },
 
-  async PUT(_req, ctx) {
-    if (ctx.State.GameLookup) {
-      await setActiveGame(ctx.State, ctx.State.GameLookup);
+  async PUT(req, ctx) {
+    const { GameLookup } = await req.json();
+
+    if (GameLookup) {
+      await setActiveGame(ctx.State, GameLookup);
     }
 
     return Response.json(true);
@@ -79,7 +82,7 @@ export const handler: EaCRuntimeHandlerResult<
 
     if (gameLookup) {
       const jwt = await loadJwtConfig().Create({
-        GameLookup: ctx.State.GameLookup,
+        GameLookup: gameLookup,
         Username: ctx.State.Username,
       });
 
@@ -144,11 +147,85 @@ export default function GamesIndex({
 
   return (
     <div class="p-6">
-      <h1 class="text-3xl font-semibold text-center mb-6">
+      {activeGame && games.length > 0 ? (
+        <>
+          <h1 class="text-3xl font-semibold text-center my-8">Your Games</h1>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {games.map((game) => (
+              <div
+                key={game.EnterpriseLookup}
+                class={classSet([
+                  'p-4 rounded-lg shadow-lg min-h-150px',
+                  ActiveGameLookup === game?.EnterpriseLookup
+                    ? 'bg-gray-400 dark:bg-slate-500 border border-gray-800 dark:border-slate-100'
+                    : 'bg-gray-200 dark:bg-slate-700',
+                ])}
+              >
+                <h2 class="text-xl font-semibold">{game.Details!.Name}</h2>
+
+                <p class="mb-4">{game.Details!.Description}</p>
+
+                <div class="flex flex-row justify-end">
+                  {ActiveGameLookup !== game?.EnterpriseLookup && (
+                    <Action
+                      actionStyle={ActionStyleTypes.Icon}
+                      class="px-4 py-2"
+                      title="Delete"
+                      onClick={() =>
+                        handleDelete(
+                          game.EnterpriseLookup!,
+                          game.Details!.Name!
+                        )
+                      }
+                    >
+                      <DeleteIcon class="w-6 h-6 text-red-500" />
+                    </Action>
+                  )}
+
+                  {ActiveGameLookup !== game?.EnterpriseLookup && (
+                    <Action
+                      actionStyle={ActionStyleTypes.Icon}
+                      class="px-4 py-2"
+                      title="Set as Active Game"
+                      onClick={() =>
+                        handleSetActive(
+                          game.EnterpriseLookup!,
+                          game.Details!.Name!
+                        )
+                      }
+                    >
+                      <ActivateIcon class="w-6 h-6 text-sky-500" />
+                    </Action>
+                  )}
+                </div>
+              </div>
+            ))}
+
+            <Action
+              type="button"
+              actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
+              onClick={() => {
+                toggleActiveGame();
+              }}
+            >
+              Create Game
+            </Action>
+          </div>
+
+          <hr class="mb-8 mt-16" />
+        </>
+      ) : !activeGame ? (
+        <></>
+      ) : (
+        <p class="text-center text-gray-500">No games available.</p>
+      )}
+
+      <h1 class="text-3xl font-semibold text-center my-8">
         {activeGame ? 'Manage Active Game' : 'Create Game'}
       </h1>
 
-      <form method="POST" class="mb-8">
+      <form method="POST" class="mb-8 max-w-xs sm:max-w-sm mx-auto">
         {activeGame && (
           <input type="hidden" name="GameLookup" value={ActiveGameLookup} />
         )}
@@ -185,7 +262,7 @@ export default function GamesIndex({
             {activeGame ? 'Update Game' : 'Create Game'}
           </Action>
 
-          {!activeGame && (
+          {!activeGame && games.length > 0 && (
             <Action
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
@@ -198,63 +275,6 @@ export default function GamesIndex({
           )}
         </div>
       </form>
-
-      {activeGame && games.length > 0 ? (
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {games.map((game) => (
-            <div
-              key={game.EnterpriseLookup}
-              class="p-4 bg-gray-200 dark:bg-slate-700 rounded-lg shadow-lg"
-            >
-              <h2 class="text-xl font-semibold">{game.Details!.Name}</h2>
-
-              <p class="mb-4">{game.Details!.Description}</p>
-
-              <div class="flex justify-between">
-                <Action
-                  actionStyle={ActionStyleTypes.Icon}
-                  class="px-4 py-2"
-                  title="Delete"
-                  onClick={() =>
-                    handleDelete(game.EnterpriseLookup!, game.Details!.Name!)
-                  }
-                >
-                  <DeleteIcon class="w-6 h-6 text-red-500" />
-                </Action>
-
-                {ActiveGameLookup !== activeGame?.EnterpriseLookup && (
-                  <Action
-                    actionStyle={ActionStyleTypes.Icon}
-                    class="px-4 py-2"
-                    title="Set as Active Game"
-                    onClick={() =>
-                      handleSetActive(
-                        game.EnterpriseLookup!,
-                        game.Details!.Name!
-                      )
-                    }
-                  >
-                    <ActivateIcon class="w-6 h-6 text-red-500" />
-                  </Action>
-                )}
-              </div>
-            </div>
-          ))}
-
-          <Action
-            type="button"
-            onClick={() => {
-              toggleActiveGame();
-            }}
-          >
-            Create Game
-          </Action>
-        </div>
-      ) : !activeGame ? (
-        <></>
-      ) : (
-        <p class="text-center text-gray-500">No games available.</p>
-      )}
     </div>
   );
 }
