@@ -1,24 +1,16 @@
 import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
-import { PirataGamesAPIState } from '../../../../src/state/PirataGamesAPIState.ts';
+import { GamesAPIState } from '../../../../src/state/GamesAPIState.ts';
 import { EaCGameWorldAsCode } from '../../../../src/eac/EaCGameWorldAsCode.ts';
-import { EaCGameWorldContentAsCode } from '../../../../src/eac/EaCGameWorldContentAsCode.ts';
-import { EaCGameWorldContentDetails } from '../../../../src/eac/EaCGameWorldContentDetails.ts';
+import { EaCGameWorldContentAsCode } from '../../../../src/eac/content/EaCGameWorldContentAsCode.ts';
+import { EaCGameWorldContentDetails } from '../../../../src/eac/content/EaCGameWorldContentDetails.ts';
 import { EaCGameWorldDetails } from '../../../../src/eac/EaCGameWorldDetails.ts';
-import { z } from 'zod';
-
-const UpdateGameWorldSchema = z.object({
-  Details: z.object({
-    Description: z.string().optional(),
-    Name: z.string().optional(),
-  }),
-  Contents: z.record(z.string(), z.any()).optional(),
-});
+import { UpdateGameWorldSchema } from '../../../../src/api/eac/UpdateGameWorldSchema.ts';
 
 export default {
   /** Retrieves a specific game world based on the lookup key */
   async GET(_req, ctx) {
     const kvStore = ctx.State.PirataKV;
-    const rootKey = ctx.State.RootKey;
+    const rootKey = ctx.State.GamesRootKey;
     const gameWorldLookup = ctx.Params.gameWorld!;
     const gameWorld: EaCGameWorldAsCode = { Contents: {} };
     const prefix: Deno.KvKey = [...rootKey, 'GameWorlds', gameWorldLookup];
@@ -62,7 +54,7 @@ export default {
   async PUT(req, ctx) {
     try {
       const kvStore = ctx.State.PirataKV;
-      const rootKey = ctx.State.RootKey;
+      const rootKey = ctx.State.GamesRootKey;
       const gameWorldLookup = ctx.Params.gameWorld!;
       const body = await req.json();
 
@@ -93,7 +85,7 @@ export default {
   async DELETE(_req, ctx) {
     try {
       const kvStore = ctx.State.PirataKV;
-      const rootKey = ctx.State.RootKey;
+      const rootKey = ctx.State.GamesRootKey;
       const gameWorldLookup = ctx.Params.gameWorld!;
       const prefix: Deno.KvKey = [...rootKey, 'GameWorlds', gameWorldLookup];
 
@@ -107,4 +99,4 @@ export default {
       return new Response('Failed to delete game world.', { status: 500 });
     }
   },
-} as EaCRuntimeHandlers<PirataGamesAPIState>;
+} as EaCRuntimeHandlers<GamesAPIState>;

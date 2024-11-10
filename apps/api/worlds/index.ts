@@ -1,22 +1,15 @@
 import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
-import { PirataGamesAPIState } from '../../../src/state/PirataGamesAPIState.ts';
+import { GamesAPIState } from '../../../src/state/GamesAPIState.ts';
 import { EaCGameWorldDetails } from '../../../src/eac/EaCGameWorldDetails.ts';
 import { EaCGameWorldAsCode } from '../../../src/eac/EaCGameWorldAsCode.ts';
-import { z } from 'zod';
-
-// Define validation schema for the POST body
-const CreateGameWorldSchema = z.object({
-  Lookup: z.string().nonempty('Lookup is required and cannot be empty.'),
-  Description: z.string().optional(),
-  Name: z.string().optional(),
-});
+import { CreateGameWorldSchema } from '../../../src/api/eac/CreateGameWorldSchema.ts';
 
 export default {
   /** Lists all game worlds stored in the Deno KV, returning them in JSON format */
   async GET(_req, ctx) {
     try {
-      const kvStore = ctx.State.PirataKV;
-      const rootKey = ctx.State.RootKey;
+      const kvStore = ctx.State.GamesKV;
+      const rootKey = ctx.State.GamesRootKey;
       const gameWorlds: Record<string, EaCGameWorldAsCode> = {};
       const prefix: Deno.KvKey = [...rootKey, 'GameWorlds'];
 
@@ -46,8 +39,8 @@ export default {
   /** Creates a new game world entry in the Deno KV store */
   async POST(req, ctx) {
     try {
-      const kvStore = ctx.State.PirataKV;
-      const rootKey = ctx.State.RootKey;
+      const kvStore = ctx.State.GamesKV;
+      const rootKey = ctx.State.GamesRootKey;
 
       // Parse and validate the request body
       const body = await req.json();
@@ -79,4 +72,4 @@ export default {
       return new Response('Failed to create game world.', { status: 500 });
     }
   },
-} as EaCRuntimeHandlers<PirataGamesAPIState>;
+} as EaCRuntimeHandlers<GamesAPIState>;

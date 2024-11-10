@@ -1,15 +1,7 @@
 import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
-import { PirataGamesAPIState } from '../../src/state/PirataGamesAPIState.ts';
+import { GamesAPIState } from '../../src/state/GamesAPIState.ts';
+import { gameJWTLoaderMiddleware } from '../../src/state/gameJWTLoaderMiddleware.ts';
 
-export default {
-  async GET(_req, ctx) {
-    ctx.State.PirataKV = await ctx.Runtime.IoC.Resolve<Deno.Kv>(
-      Deno.Kv,
-      'pirata',
-    );
-
-    ctx.State.RootKey = ['PirataGames', '00000000-0000-0000-0000-000000000000'];
-
-    return ctx.Next();
-  },
-} as EaCRuntimeHandlers<PirataGamesAPIState>;
+export default [
+  gameJWTLoaderMiddleware,
+] as EaCRuntimeHandlers<GamesAPIState>[];

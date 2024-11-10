@@ -1,11 +1,11 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
+import { GamesWebState } from '../../src/state/GamesWebState.ts';
 
 // deno-lint-ignore ban-types
 type ADB2CSelfAssertedPageData = {};
 
 export const handler: EaCRuntimeHandlerResult<
-  PirataGamesWebState,
+  GamesWebState,
   ADB2CSelfAssertedPageData
 > = {
   GET(_req, ctx) {

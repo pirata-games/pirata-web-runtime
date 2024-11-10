@@ -1,7 +1,7 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
+import { GamesWebState } from '../../src/state/GamesWebState.ts';
 
-export const handler: EaCRuntimeHandlerResult<PirataGamesWebState> = {
+export const handler: EaCRuntimeHandlerResult<GamesWebState> = {
   async GET(_req, ctx) {
     ctx.Data.BaseURL = new URL(ctx.Runtime.URLMatch.Base).origin;
 

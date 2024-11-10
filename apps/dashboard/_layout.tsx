@@ -1,15 +1,26 @@
 // Import necessary Preact modules
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import Sidebar, { SidebarItem } from '../islands/game-world/molecules/Sidebar.tsx';
-import { PirataGameWorldWebState } from '../../src/state/PirataGameWorldWebState.ts';
+import { GamesWebState } from '../../src/state/GamesWebState.ts';
 import PirataThinky from '../islands/organisms/PirataThinky.tsx';
+import { ChatSet } from '@fathym/atomic';
 
 type LayoutPageData = {
   SidebarItems: SidebarItem[];
+
+  ActiveChat?: string;
+
+  Chats: Record<string, ChatSet>;
+
+  GameJWT: string;
+
+  Root: string;
+
+  Username: string;
 };
 
 export const handler: EaCRuntimeHandlerResult<
-  PirataGameWorldWebState,
+  GamesWebState,
   LayoutPageData
 > = {
   GET: (_req, ctx) => {
@@ -59,6 +70,25 @@ export const handler: EaCRuntimeHandlerResult<
       },
     ];
 
+    ctx.Data.ActiveChat = `${ctx.State.Username}-iot-event-logs`;
+
+    ctx.Data.Chats = {
+      [`${ctx.State.Username}-iot-event-logs`]: {
+        Name: 'Event Logs',
+        CircuitLookup: 'event-logs:query-circuit',
+      },
+      [`${ctx.State.Username}-explore`]: {
+        Name: 'Explore Proconex',
+        CircuitLookup: 'company-chat:rag',
+      },
+    };
+
+    ctx.Data.GameJWT = ctx.State.GamesJWT!;
+
+    ctx.Data.Root = '/circuits/';
+
+    ctx.Data.Username = ctx.State.Username!;
+
     return ctx.Next();
   },
 };
@@ -99,10 +129,20 @@ export default function Layout({
       </head>
 
       <body class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden'>
-        <PirataThinky class='h-[100vh]'>
+        <PirataThinky
+          class='h-[100vh]'
+          activeChat={Data.ActiveChat}
+          chats={Data.Chats}
+          root={Data.Root}
+          jwt={Data.GameJWT}
+          // username={Data.Username}
+        >
           <div class='flex flex-row h-full'>
             {/* Sidebar with fixed width */}
-            <Sidebar items={Data.SidebarItems} class='w-[300px] h-full' />
+            <Sidebar
+              items={Data.SidebarItems}
+              class='w-[90%] max-w-xs h-full'
+            />
 
             {/* Main Content Area */}
             <main class='flex-grow w-full overflow-y-auto'>

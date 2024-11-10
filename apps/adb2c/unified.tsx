@@ -1,5 +1,5 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
+import { GamesWebState } from '../../src/state/GamesWebState.ts';
 // import { ADB2CTestSignIn } from '../components/test-signin.tsx';
 // import { ADB2CTestSignUp } from '../components/test-signup.tsx';
 // import { ADB2CTestPasswordReset } from '../components/test-resetpassword.tsx';
@@ -8,7 +8,7 @@ import { PirataGamesWebState } from '../../src/state/PirataGamesWebState.ts';
 type ADB2CUnifiedPageData = {};
 
 export const handler: EaCRuntimeHandlerResult<
-  PirataGamesWebState,
+  GamesWebState,
   ADB2CUnifiedPageData
 > = {
   GET(_req, ctx) {

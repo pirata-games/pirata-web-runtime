@@ -11,6 +11,7 @@ import {
   EaCAPIProcessor,
   EaCBaseHREFModifierDetails,
   EaCDFSProcessor,
+  EaCJWTValidationModifierDetails,
   EaCKeepAliveModifierDetails,
   EaCOAuthModifierDetails,
   EaCOAuthProcessor,
@@ -121,7 +122,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 Priority: 500,
               },
               'game-world': {
-                PathPattern: '/dashboard/game-world*',
+                PathPattern: '/dashboard*',
                 Priority: 500,
                 IsPrivate: true,
                 IsTriggerSignIn: true,
@@ -158,6 +159,11 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Name: 'Local API',
               Description: 'Default local APIs.',
+            },
+            ModifierResolvers: {
+              jwtValidate: {
+                Priority: 1000,
+              },
             },
             Processor: {
               Type: 'API',
@@ -200,6 +206,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                     delete: 'https://api.iconify.design/material-symbols-light:delete.svg',
                     edit: 'https://api.iconify.design/mdi:edit.svg',
                     loading: 'https://api.iconify.design/mdi:loading.svg',
+                    manage: 'https://api.iconify.design/line-md:cog.svg',
                   },
                 },
                 Generate: true,
@@ -230,10 +237,10 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             },
             Processor: {
               Type: 'PreactApp',
-              AppDFSLookup: 'local:apps/game-world',
+              AppDFSLookup: 'local:apps/dashboard',
               ComponentDFSLookups: [
                 ['local:apps/components', ['tsx']],
-                ['local:apps/game-world', ['tsx']],
+                ['local:apps/dashboard', ['tsx']],
                 ['local:apps/islands', ['tsx']],
                 ['jsr:@fathym/atomic', ['tsx']],
                 ['jsr:@fathym/atomic-design-kit', ['tsx']],
@@ -283,7 +290,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               DFSLookups: [
                 'local:apps/adb2c',
                 'local:apps/components',
-                'local:apps/game-world',
+                'local:apps/dashboard',
                 'local:apps/home',
                 'local:apps/islands',
                 'jsr:@fathym/atomic',
@@ -311,7 +318,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               DenoKVPath: Deno.env.get('LOCAL_CACHE_DENO_KV_PATH') || undefined,
             } as EaCDenoKVDatabaseDetails,
           },
-          pirata: {
+          game: {
             Details: {
               Type: 'DenoKV',
               Name: 'EaC DB',
@@ -376,10 +383,10 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               ),
             } as EaCLocalDistributedFileSystemDetails,
           },
-          'local:apps/game-world': {
+          'local:apps/dashboard': {
             Details: {
               Type: 'Local',
-              FileRoot: './apps/game-world/',
+              FileRoot: './apps/dashboard/',
               DefaultFile: 'index.tsx',
               Extensions: ['tsx'],
               WorkerPath: import.meta.resolve(
@@ -472,6 +479,13 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Description: 'Lightweight cache to use that stores data in a DenoKV database.',
               KeepAlivePath: '/_eac/alive',
             } as EaCKeepAliveModifierDetails,
+          },
+          jwtValidate: {
+            Details: {
+              Type: 'JWTValidation',
+              Name: 'Validate JWT',
+              Description: 'Validate incoming JWTs to restrict access.',
+            } as EaCJWTValidationModifierDetails,
           },
           oauth: {
             Details: {
