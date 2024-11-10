@@ -37,14 +37,18 @@ export default {
       );
 
       const games = await Promise.all(
-        userEaCRecords.map(async (record) =>{
-          const jwt = await parentEaCSvc.JWT(record.EnterpriseLookup, ctx.State.Username);
+        userEaCRecords.map(async (record) => {
+          const jwt = await parentEaCSvc.JWT(
+            record.EnterpriseLookup,
+            ctx.State.Username
+          );
 
           const eacSvc = await loadEaCSvc(jwt.Token);
 
-          const game = await eacSvc.Get()
-        }
-        )
+          const game = await eacSvc.Get(record.EnterpriseLookup);
+
+          return game;
+        })
       );
 
       return Response.json(games);

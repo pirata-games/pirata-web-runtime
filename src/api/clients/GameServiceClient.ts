@@ -70,7 +70,7 @@ export class GameServiceClient extends EaCBaseClient {
      * Lists all games.
      * @returns {Promise<EverythingAsCodeGame[]>} An array of game data.
      */
-    List: async (): Promise<UserEaCRecord[]> => {
+    List: async (): Promise<EverythingAsCodeGame[]> => {
       const response = await fetch(this.loadClientUrl(`games/list`), {
         method: 'GET',
         headers: this.loadHeaders(),
