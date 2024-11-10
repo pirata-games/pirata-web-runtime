@@ -3,7 +3,7 @@ import {
   CodeMirrorUnifiedMergeEditor,
 } from '@fathym/code-editor';
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import { GamesWebState } from '../../../src/state/GamesWebState.ts';
+import { GamesWebState } from '../../../../src/state/GamesWebState.ts';
 import { markdown } from '@codemirror/lang-markdown';
 import { Tabs } from '@fathym/atomic';
 import { useState } from 'preact/hooks';

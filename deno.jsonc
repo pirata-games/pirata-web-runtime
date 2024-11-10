@@ -28,7 +28,7 @@
     "@codemirror/lang-markdown": "npm:@codemirror/lang-markdown@6.3.1",
     "@lezer/highlight": "npm:@lezer/highlight@1.2.1",
 
-    "@fathym/atomic": "jsr:@fathym/atomic-design-kit@0.0.220",
+    "@fathym/atomic": "jsr:@fathym/atomic-design-kit@0.0.221",
     "@fathym/atomic-icons": "jsr:@fathym/atomic-icons@0.0.65",
     "@fathym/code-editor": "../../../../Fathym/source/github/fathym-deno/code-editor/mod.ts",
     // "@fathym/code-editor": "jsr:@fathym/code-editor@0.0.18",
@@ -47,6 +47,7 @@
     "@langchain/langgraph": "npm:@langchain/langgraph@0.2.3",
     "pdf-parse": "npm:pdf-parse@1.1.1",
     "preact": "npm:preact@10.20.1",
+    "@std/http": "jsr:@std/http@1.0.3/status",
     "@std/log": "jsr:@std/log@0.224.6",
     "tailwindcss": "npm:tailwindcss@3.4.1",
     "tailwindcss/": "npm:/tailwindcss@3.4.1/",

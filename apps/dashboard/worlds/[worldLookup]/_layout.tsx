@@ -1,8 +1,8 @@
 import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import Sidebar, {
   SidebarItem,
-} from '../../islands/game-world/molecules/Sidebar.tsx';
-import { GamesWebState } from '../../../src/state/GamesWebState.ts';
+} from '../../../islands/game-world/molecules/Sidebar.tsx';
+import { GamesWebState } from '../../../../src/state/GamesWebState.ts';
 
 type LayoutPageData = {
   SidebarItems: SidebarItem[];

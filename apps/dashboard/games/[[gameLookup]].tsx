@@ -12,11 +12,19 @@ import { classSet } from '../../../../../../../Fathym/source/github/fathym-deno/
 
 export const IsIsland = true;
 
+/**
+ * Data passed to the page component, including the list of games and the active game lookup.
+ */
 type GameIndexPageData = {
   Games: EverythingAsCodeGame[];
   ActiveGameLookup?: string;
 };
 
+/**
+ * Handles game management actions including retrieving, creating, updating, and deleting games.
+ *
+ * @type {EaCRuntimeHandlerResult<GamesWebState, GameIndexPageData>}
+ */
 export const handler: EaCRuntimeHandlerResult<
   GamesWebState,
   GameIndexPageData
@@ -25,11 +33,7 @@ export const handler: EaCRuntimeHandlerResult<
     const games = ctx.State.GameLookup
       ? await ctx.State.GamesClient!.Games.List()
       : [];
-
-    return ctx.Render({
-      Games: games,
-      ActiveGameLookup: ctx.State.GameLookup,
-    });
+    return ctx.Render({ Games: games, ActiveGameLookup: ctx.State.GameLookup });
   },
 
   async POST(req, ctx) {
@@ -38,28 +42,17 @@ export const handler: EaCRuntimeHandlerResult<
     const name = formData.get('Name') as string;
     const description = formData.get('Description') as string;
 
-    if (gameLookup) {
-      const gameStatus = await ctx.State.GamesClient!.Games.Update({
-        Details: {
-          Name: name,
-          Description: description,
-        },
-        GameWorlds: {},
-      });
+    const gameStatus = gameLookup
+      ? await ctx.State.GamesClient!.Games.Update({
+          Details: { Name: name, Description: description },
+          GameWorlds: {},
+        })
+      : await ctx.State.GamesClient!.Games.Create({
+          Details: { Name: name, Description: description },
+          GameWorlds: {},
+        });
 
-      gameLookup = gameStatus.EnterpriseLookup;
-    } else {
-      const gameStatus = await ctx.State.GamesClient!.Games.Create({
-        Details: {
-          Name: name,
-          Description: description,
-        },
-        GameWorlds: {},
-      });
-
-      gameLookup = gameStatus.EnterpriseLookup;
-    }
-
+    gameLookup = gameStatus.EnterpriseLookup;
     await setActiveGame(ctx.State, gameLookup);
 
     return Response.redirect(
@@ -69,63 +62,57 @@ export const handler: EaCRuntimeHandlerResult<
 
   async PUT(req, ctx) {
     const { GameLookup } = await req.json();
-
-    if (GameLookup) {
-      await setActiveGame(ctx.State, GameLookup);
-    }
-
+    if (GameLookup) await setActiveGame(ctx.State, GameLookup);
     return Response.json(true);
   },
 
   async DELETE(_req, ctx) {
     const gameLookup = ctx.Params.gameLookup!;
-
     if (gameLookup) {
       const jwt = await loadJwtConfig().Create({
         GameLookup: gameLookup,
         Username: ctx.State.Username,
       });
-
-      const gamesClient = await new GameServiceClient(
+      const gamesClient = new GameServiceClient(
         new URL(ctx.Runtime.URLMatch.FromOrigin('api/')),
         jwt
       );
-
       await gamesClient.Games.Delete();
     }
-
     return Response.json(true);
   },
 };
 
+/**
+ * Main component for managing game entries. Allows users to create, update, and set the active game.
+ *
+ * @param {PageProps<GameIndexPageData>} props - Data passed from the handler including games list and active game.
+ * @returns {JSX.Element} The rendered component for game management.
+ */
 export default function GamesIndex({
   Data: { Games, ActiveGameLookup },
 }: PageProps<GameIndexPageData>) {
-  const [games] = useState(Games || []);
+  const [loading, setLoading] = useState(false);
 
+  const [games] = useState(Games || []);
   const [activeGame, setActiveGame] = useState(
-    Games?.find((game) => game.EnterpriseLookup === ActiveGameLookup)
+    Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
   );
 
-  const toggleActiveGame = () => {
-    if (activeGame) {
-      setActiveGame(undefined);
-    } else {
-      setActiveGame(
-        Games?.find((game) => game.EnterpriseLookup === ActiveGameLookup)
-      );
-    }
-  };
+  const toggleActiveGame = () =>
+    setActiveGame(
+      activeGame
+        ? undefined
+        : Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
+    );
 
   const handleDelete = async (gameLookup: string, gameName: string) => {
     if (confirm(`Are you sure you want to delete the '${gameName}' game?`)) {
+      setLoading(true);
       const response = await fetch(`/dashboard/games/${gameLookup}`, {
         method: 'DELETE',
       });
-
-      if (response.ok) {
-        window.location.reload();
-      }
+      if (response.ok) window.location.reload();
     }
   };
 
@@ -133,24 +120,32 @@ export default function GamesIndex({
     if (
       confirm(`Are you sure you want to set the '${gameName}' game as active?`)
     ) {
+      setLoading(true);
       const response = await fetch(`/dashboard/games`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ GameLookup: gameLookup }),
       });
-
-      if (response.ok) {
-        window.location.reload();
-      }
+      if (response.ok) window.location.reload();
     }
+  };
+
+  /**
+   * Handle form submission by setting loading to true before submitting.
+   * @param {Event} event - The form submission event.
+   */
+  const handleFormSubmit = (event: Event) => {
+    event.preventDefault();
+    setLoading(true);
+    (event.target as HTMLFormElement).submit();
   };
 
   return (
     <div class="p-6">
+      {/* Display all games when available */}
       {activeGame && games.length > 0 ? (
         <>
           <h1 class="text-3xl font-semibold text-center my-8">Your Games</h1>
-
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {games.map((game) => (
               <div
@@ -163,15 +158,14 @@ export default function GamesIndex({
                 ])}
               >
                 <h2 class="text-xl font-semibold">{game.Details!.Name}</h2>
-
                 <p class="mb-4">{game.Details!.Description}</p>
-
                 <div class="flex flex-row justify-end">
                   {ActiveGameLookup !== game?.EnterpriseLookup && (
                     <Action
                       actionStyle={ActionStyleTypes.Icon}
                       class="px-4 py-2"
                       title="Delete"
+                      disabled={loading}
                       onClick={() =>
                         handleDelete(
                           game.EnterpriseLookup!,
@@ -182,12 +176,12 @@ export default function GamesIndex({
                       <DeleteIcon class="w-6 h-6 text-red-500" />
                     </Action>
                   )}
-
                   {ActiveGameLookup !== game?.EnterpriseLookup && (
                     <Action
                       actionStyle={ActionStyleTypes.Icon}
                       class="px-4 py-2"
                       title="Set as Active Game"
+                      disabled={loading}
                       onClick={() =>
                         handleSetActive(
                           game.EnterpriseLookup!,
@@ -201,38 +195,35 @@ export default function GamesIndex({
                 </div>
               </div>
             ))}
-
             <Action
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
-              onClick={() => {
-                toggleActiveGame();
-              }}
+              disabled={loading}
+              onClick={() => toggleActiveGame()}
             >
               Create Game
             </Action>
           </div>
-
           <hr class="mb-8 mt-16" />
         </>
-      ) : !activeGame ? (
-        <></>
-      ) : (
+      ) : !activeGame ? null : (
         <p class="text-center text-gray-500">No games available.</p>
       )}
 
+      {/* Form for creating or updating games */}
       <h1 class="text-3xl font-semibold text-center my-8">
         {activeGame ? 'Manage Active Game' : 'Create Game'}
       </h1>
-
-      <form method="POST" class="mb-8 max-w-xs sm:max-w-sm mx-auto">
+      <form
+        method="POST"
+        class="mb-8 max-w-xs sm:max-w-sm mx-auto"
+        onSubmit={handleFormSubmit}
+      >
         {activeGame && (
           <input type="hidden" name="GameLookup" value={ActiveGameLookup} />
         )}
-
         <div class="mb-4">
           <label class="block font-semibold">Name</label>
-
           <Input
             type="text"
             name="Name"
@@ -241,10 +232,8 @@ export default function GamesIndex({
             required
           />
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold">Description</label>
-
           <Input
             multiline
             name="Description"
@@ -253,22 +242,20 @@ export default function GamesIndex({
             required
           />
         </div>
-
         <div class="flex items-stretch flex-row gap-4">
           <Action
             type="submit"
             class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            disabled={loading}
           >
             {activeGame ? 'Update Game' : 'Create Game'}
           </Action>
-
           {!activeGame && games.length > 0 && (
             <Action
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
-              onClick={() => {
-                toggleActiveGame();
-              }}
+              disabled={loading}
+              onClick={() => toggleActiveGame()}
             >
               Cancel
             </Action>
