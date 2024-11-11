@@ -10,10 +10,13 @@ import { setActiveGame } from '../../../src/state/gameWebSetupLoaderMiddleware.t
 import { Action, ActionStyleTypes, Input } from '@fathym/atomic';
 import { classSet } from '../../../../../../../Fathym/source/github/fathym-deno/code-editor/src/src.deps.ts';
 
+/**
+ * Set if this component should be isolated.
+ */
 export const IsIsland = true;
 
 /**
- * Data passed to the page component, including the list of games and the active game lookup.
+ * GameIndexPageData holds the games array and the active game identifier.
  */
 type GameIndexPageData = {
   Games: EverythingAsCodeGame[];
@@ -21,14 +24,15 @@ type GameIndexPageData = {
 };
 
 /**
- * Handles game management actions including retrieving, creating, updating, and deleting games.
- *
- * @type {EaCRuntimeHandlerResult<GamesWebState, GameIndexPageData>}
+ * API handler for managing game entities (create, read, update, delete) within the application state.
  */
 export const handler: EaCRuntimeHandlerResult<
   GamesWebState,
   GameIndexPageData
 > = {
+  /**
+   * GET handler - retrieves all games and identifies the active game.
+   */
   async GET(_req, ctx) {
     const games = ctx.State.GameLookup
       ? await ctx.State.GamesClient!.Games.List()
@@ -36,6 +40,9 @@ export const handler: EaCRuntimeHandlerResult<
     return ctx.Render({ Games: games, ActiveGameLookup: ctx.State.GameLookup });
   },
 
+  /**
+   * POST handler - creates or updates a game based on the presence of GameLookup.
+   */
   async POST(req, ctx) {
     const formData = await req.formData();
     let gameLookup = formData.get('GameLookup') as string;
@@ -60,12 +67,18 @@ export const handler: EaCRuntimeHandlerResult<
     );
   },
 
+  /**
+   * PUT handler - sets a game as active.
+   */
   async PUT(req, ctx) {
     const { GameLookup } = await req.json();
     if (GameLookup) await setActiveGame(ctx.State, GameLookup);
     return Response.json(true);
   },
 
+  /**
+   * DELETE handler - deletes a game by its lookup.
+   */
   async DELETE(_req, ctx) {
     const gameLookup = ctx.Params.gameLookup!;
     if (gameLookup) {
@@ -84,21 +97,21 @@ export const handler: EaCRuntimeHandlerResult<
 };
 
 /**
- * Main component for managing game entries. Allows users to create, update, and set the active game.
- *
- * @param {PageProps<GameIndexPageData>} props - Data passed from the handler including games list and active game.
- * @returns {JSX.Element} The rendered component for game management.
+ * GamesIndex component for managing game entities.
+ * Displays, creates, updates, and deletes games, along with managing the active game.
  */
 export default function GamesIndex({
   Data: { Games, ActiveGameLookup },
 }: PageProps<GameIndexPageData>) {
   const [loading, setLoading] = useState(false);
-
   const [games] = useState(Games || []);
   const [activeGame, setActiveGame] = useState(
     Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
   );
 
+  /**
+   * Toggles between edit mode for the active game and creating a new game.
+   */
   const toggleActiveGame = () =>
     setActiveGame(
       activeGame
@@ -106,6 +119,11 @@ export default function GamesIndex({
         : Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
     );
 
+  /**
+   * Deletes a game with user confirmation.
+   * @param gameLookup - Unique identifier for the game.
+   * @param gameName - Name of the game.
+   */
   const handleDelete = async (gameLookup: string, gameName: string) => {
     if (confirm(`Are you sure you want to delete the '${gameName}' game?`)) {
       setLoading(true);
@@ -116,6 +134,11 @@ export default function GamesIndex({
     }
   };
 
+  /**
+   * Sets a game as the active game with user confirmation.
+   * @param gameLookup - Unique identifier for the game.
+   * @param gameName - Name of the game.
+   */
   const handleSetActive = async (gameLookup: string, gameName: string) => {
     if (
       confirm(`Are you sure you want to set the '${gameName}' game as active?`)
@@ -131,8 +154,9 @@ export default function GamesIndex({
   };
 
   /**
-   * Handle form submission by setting loading to true before submitting.
-   * @param {Event} event - The form submission event.
+   * Form submission handler for creating or updating a game.
+   * Sets loading state before form submission.
+   * @param event - Form submission event.
    */
   const handleFormSubmit = (event: Event) => {
     event.preventDefault();
@@ -142,7 +166,6 @@ export default function GamesIndex({
 
   return (
     <div class="p-6">
-      {/* Display all games when available */}
       {activeGame && games.length > 0 ? (
         <>
           <h1 class="text-3xl font-semibold text-center my-8">Your Games</h1>
@@ -199,7 +222,7 @@ export default function GamesIndex({
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
               disabled={loading}
-              onClick={() => toggleActiveGame()}
+              onClick={toggleActiveGame}
             >
               Create Game
             </Action>
@@ -210,7 +233,6 @@ export default function GamesIndex({
         <p class="text-center text-gray-500">No games available.</p>
       )}
 
-      {/* Form for creating or updating games */}
       <h1 class="text-3xl font-semibold text-center my-8">
         {activeGame ? 'Manage Active Game' : 'Create Game'}
       </h1>
@@ -255,7 +277,7 @@ export default function GamesIndex({
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
               disabled={loading}
-              onClick={() => toggleActiveGame()}
+              onClick={toggleActiveGame}
             >
               Cancel
             </Action>
