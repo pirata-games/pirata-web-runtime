@@ -10,9 +10,14 @@ export type GamesWebState = {
 
   GamesKV: Deno.Kv;
 
-  GamesJWT?: string;
+  GameJWT?: string;
 
-  GamesClient?: GameServiceClient;
+  GameClient?: GameServiceClient;
+
+  LoadGameClient: (
+    gameLookup: string,
+    username?: string
+  ) => Promise<GameServiceClient>;
 
   Username?: string;
 };

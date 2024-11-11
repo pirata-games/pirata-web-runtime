@@ -217,8 +217,11 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                     delete:
                       'https://api.iconify.design/material-symbols-light:delete.svg',
                     edit: 'https://api.iconify.design/mdi:edit.svg',
+                    game: 'https://api.iconify.design/token:game.svg',
                     loading: 'https://api.iconify.design/mdi:loading.svg',
+                    'log-out': 'https://api.iconify.design/ic:sharp-logout.svg',
                     manage: 'https://api.iconify.design/line-md:cog.svg',
+                    user: 'https://api.iconify.design/material-symbols:account-circle-full.svg',
                   },
                 },
                 Generate: true,

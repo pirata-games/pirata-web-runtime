@@ -2,6 +2,7 @@ import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 import PirataThinky from '../islands/organisms/PirataThinky.tsx';
 import { ChatSet } from '@fathym/atomic';
+import { PirataHeader } from '../components/organisms/PirataHeader.tsx';
 
 type LayoutPageData = {
   ActiveChat?: string;
@@ -30,7 +31,7 @@ export const handler: EaCRuntimeHandlerResult<GamesWebState, LayoutPageData> = {
       },
     };
 
-    ctx.Data.GameJWT = ctx.State.GamesJWT!;
+    ctx.Data.GameJWT = ctx.State.GameJWT!;
 
     ctx.Data.Root = '/circuits/';
 
@@ -50,7 +51,7 @@ export default function DashboardLayout({
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Fathym EaC Runtime</title>
+        <title>Pirata Games - Pirata: Forsaken</title>
         <link
           rel="shortcut icon"
           type="image/png"
@@ -75,16 +76,20 @@ export default function DashboardLayout({
       </head>
 
       <body class="font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden">
-        <PirataThinky
-          class="h-[100vh]"
-          activeChat={Data.ActiveChat}
-          chats={Data.Chats}
-          root={Data.Root}
-          jwt={Data.GameJWT}
-          // username={Data.Username}
-        >
-          <Component />
-        </PirataThinky>
+        <div class="flex flex-col h-full">
+          <PirataHeader username={Data.Username} />
+
+          <PirataThinky
+            class="flex-grow"
+            activeChat={Data.ActiveChat}
+            chats={Data.Chats}
+            root={Data.Root}
+            jwt={Data.GameJWT}
+            // username={Data.Username}
+          >
+            <Component />
+          </PirataThinky>
+        </div>
       </body>
     </html>
   );

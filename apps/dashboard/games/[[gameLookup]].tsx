@@ -9,6 +9,7 @@ import { GameServiceClient } from '../../../src/api/clients/GameServiceClient.ts
 import { setActiveGame } from '../../../src/state/gameWebSetupLoaderMiddleware.ts';
 import { Action, ActionStyleTypes, Input } from '@fathym/atomic';
 import { classSet } from '../../../../../../../Fathym/source/github/fathym-deno/code-editor/src/src.deps.ts';
+import { EditIcon } from '../../../build/iconset/icons/EditIcon.tsx';
 
 /**
  * Set if this component should be isolated.
@@ -35,8 +36,9 @@ export const handler: EaCRuntimeHandlerResult<
    */
   async GET(_req, ctx) {
     const games = ctx.State.GameLookup
-      ? await ctx.State.GamesClient!.Games.List()
+      ? await ctx.State.GameClient!.Games.List()
       : [];
+
     return ctx.Render({ Games: games, ActiveGameLookup: ctx.State.GameLookup });
   },
 
@@ -45,21 +47,31 @@ export const handler: EaCRuntimeHandlerResult<
    */
   async POST(req, ctx) {
     const formData = await req.formData();
-    let gameLookup = formData.get('GameLookup') as string;
-    const name = formData.get('Name') as string;
-    const description = formData.get('Description') as string;
 
-    const gameStatus = gameLookup
-      ? await ctx.State.GamesClient!.Games.Update({
-          Details: { Name: name, Description: description },
-          GameWorlds: {},
-        })
-      : await ctx.State.GamesClient!.Games.Create({
-          Details: { Name: name, Description: description },
-          GameWorlds: {},
-        });
+    let gameLookup = formData.get('gameLookup') as string;
+
+    const name = formData.get('name') as string;
+
+    const description = formData.get('description') as string;
+
+    let gameStatus;
+
+    if (gameLookup) {
+      const gamesClient = await ctx.State.LoadGameClient(gameLookup);
+
+      gameStatus = await gamesClient.Games.Update({
+        Details: { Name: name, Description: description },
+        GameWorlds: {},
+      });
+    } else {
+      gameStatus = await ctx.State.GameClient!.Games.Create({
+        Details: { Name: name, Description: description },
+        GameWorlds: {},
+      });
+    }
 
     gameLookup = gameStatus.EnterpriseLookup;
+
     await setActiveGame(ctx.State, gameLookup);
 
     return Response.redirect(
@@ -72,7 +84,9 @@ export const handler: EaCRuntimeHandlerResult<
    */
   async PUT(req, ctx) {
     const { GameLookup } = await req.json();
+
     if (GameLookup) await setActiveGame(ctx.State, GameLookup);
+
     return Response.json(true);
   },
 
@@ -81,15 +95,10 @@ export const handler: EaCRuntimeHandlerResult<
    */
   async DELETE(_req, ctx) {
     const gameLookup = ctx.Params.gameLookup!;
+
     if (gameLookup) {
-      const jwt = await loadJwtConfig().Create({
-        GameLookup: gameLookup,
-        Username: ctx.State.Username,
-      });
-      const gamesClient = new GameServiceClient(
-        new URL(ctx.Runtime.URLMatch.FromOrigin('api/')),
-        jwt
-      );
+      const gamesClient = await ctx.State.LoadGameClient(gameLookup);
+
       await gamesClient.Games.Delete();
     }
     return Response.json(true);
@@ -105,19 +114,15 @@ export default function GamesIndex({
 }: PageProps<GameIndexPageData>) {
   const [loading, setLoading] = useState(false);
   const [games] = useState(Games || []);
-  const [activeGame, setActiveGame] = useState(
-    Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
+  const [editGame, setEditGame] = useState<EverythingAsCodeGame | undefined>(
+    undefined
   );
 
   /**
    * Toggles between edit mode for the active game and creating a new game.
    */
-  const toggleActiveGame = () =>
-    setActiveGame(
-      activeGame
-        ? undefined
-        : Games.find((game) => game.EnterpriseLookup === ActiveGameLookup)
-    );
+  const toggleEditGame = (edit: EverythingAsCodeGame | undefined) =>
+    setEditGame(edit);
 
   /**
    * Deletes a game with user confirmation.
@@ -166,7 +171,7 @@ export default function GamesIndex({
 
   return (
     <div class="p-6">
-      {activeGame && games.length > 0 ? (
+      {!editGame && games.length > 0 ? (
         <>
           <h1 class="text-3xl font-semibold text-center my-8">Your Games</h1>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -181,24 +186,20 @@ export default function GamesIndex({
                 ])}
               >
                 <h2 class="text-xl font-semibold">{game.Details!.Name}</h2>
+
                 <p class="mb-4">{game.Details!.Description}</p>
+
                 <div class="flex flex-row justify-end">
-                  {ActiveGameLookup !== game?.EnterpriseLookup && (
-                    <Action
-                      actionStyle={ActionStyleTypes.Icon}
-                      class="px-4 py-2"
-                      title="Delete"
-                      disabled={loading}
-                      onClick={() =>
-                        handleDelete(
-                          game.EnterpriseLookup!,
-                          game.Details!.Name!
-                        )
-                      }
-                    >
-                      <DeleteIcon class="w-6 h-6 text-red-500" />
-                    </Action>
-                  )}
+                  <Action
+                    actionStyle={ActionStyleTypes.Icon}
+                    class="px-4 py-2"
+                    title="Set as Active Game"
+                    disabled={loading}
+                    onClick={() => toggleEditGame(game)}
+                  >
+                    <EditIcon class="w-6 h-6 text-sky-500" />
+                  </Action>
+
                   {ActiveGameLookup !== game?.EnterpriseLookup && (
                     <Action
                       actionStyle={ActionStyleTypes.Icon}
@@ -215,6 +216,23 @@ export default function GamesIndex({
                       <ActivateIcon class="w-6 h-6 text-sky-500" />
                     </Action>
                   )}
+
+                  {ActiveGameLookup !== game?.EnterpriseLookup && (
+                    <Action
+                      actionStyle={ActionStyleTypes.Icon}
+                      class="px-4 py-2"
+                      title="Delete"
+                      disabled={loading}
+                      onClick={() =>
+                        handleDelete(
+                          game.EnterpriseLookup!,
+                          game.Details!.Name!
+                        )
+                      }
+                    >
+                      <DeleteIcon class="w-6 h-6 text-red-500" />
+                    </Action>
+                  )}
                 </div>
               </div>
             ))}
@@ -222,68 +240,92 @@ export default function GamesIndex({
               type="button"
               actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
               disabled={loading}
-              onClick={toggleActiveGame}
+              onClick={() =>
+                toggleEditGame({ Details: {} } as EverythingAsCodeGame)
+              }
             >
               Create Game
             </Action>
           </div>
-          <hr class="mb-8 mt-16" />
         </>
-      ) : !activeGame ? null : (
+      ) : editGame ? null : (
         <p class="text-center text-gray-500">No games available.</p>
       )}
 
-      <h1 class="text-3xl font-semibold text-center my-8">
-        {activeGame ? 'Manage Active Game' : 'Create Game'}
-      </h1>
-      <form
-        method="POST"
-        class="mb-8 max-w-xs sm:max-w-sm mx-auto"
-        onSubmit={handleFormSubmit}
-      >
-        {activeGame && (
-          <input type="hidden" name="GameLookup" value={ActiveGameLookup} />
-        )}
-        <div class="mb-4">
-          <label class="block font-semibold">Name</label>
-          <Input
-            type="text"
-            name="Name"
-            placeholder="Game Name"
-            value={activeGame ? activeGame!.Details!.Name : ''}
-            required
-          />
-        </div>
-        <div class="mb-4">
-          <label class="block font-semibold">Description</label>
-          <Input
-            multiline
-            name="Description"
-            placeholder="Game Description"
-            value={activeGame ? activeGame!.Details!.Description : ''}
-            required
-          />
-        </div>
-        <div class="flex items-stretch flex-row gap-4">
-          <Action
-            type="submit"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            disabled={loading}
+      {editGame && (
+        <>
+          <h1 class="text-3xl font-semibold text-center my-8">
+            {editGame.Details?.Name
+              ? `Manage ${editGame.Details?.Name}`
+              : 'Create Game'}
+          </h1>
+
+          <form
+            method="POST"
+            class="mb-8 max-w-xs sm:max-w-sm mx-auto"
+            onSubmit={handleFormSubmit}
           >
-            {activeGame ? 'Update Game' : 'Create Game'}
-          </Action>
-          {!activeGame && games.length > 0 && (
-            <Action
-              type="button"
-              actionStyle={ActionStyleTypes.Outline | ActionStyleTypes.Rounded}
-              disabled={loading}
-              onClick={toggleActiveGame}
-            >
-              Cancel
-            </Action>
-          )}
-        </div>
-      </form>
+            {editGame.EnterpriseLookup && (
+              <input
+                type="hidden"
+                name="gameLookup"
+                value={editGame.EnterpriseLookup}
+              />
+            )}
+
+            <div class="mb-4">
+              <label for="name" class="block font-semibold">
+                Name
+              </label>
+
+              <Input
+                type="text"
+                name="name"
+                placeholder="Game Name"
+                value={editGame.Details?.Name ?? ''}
+                required
+              />
+            </div>
+
+            <div class="mb-4">
+              <label for="description" class="block font-semibold">
+                Description
+              </label>
+
+              <Input
+                multiline
+                name="description"
+                placeholder="Game Description"
+                value={editGame?.Details?.Description ?? ''}
+                required
+              />
+            </div>
+
+            <div class="flex items-stretch flex-row gap-4">
+              <Action
+                type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                disabled={loading}
+              >
+                {editGame.EnterpriseLookup ? 'Update Game' : 'Create Game'}
+              </Action>
+
+              {games.length > 0 && (
+                <Action
+                  type="button"
+                  actionStyle={
+                    ActionStyleTypes.Outline | ActionStyleTypes.Rounded
+                  }
+                  disabled={loading}
+                  onClick={() => toggleEditGame(undefined)}
+                >
+                  Cancel
+                </Action>
+              )}
+            </div>
+          </form>
+        </>
+      )}
     </div>
   );
 }

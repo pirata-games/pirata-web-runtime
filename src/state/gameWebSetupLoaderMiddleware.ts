@@ -17,20 +17,31 @@ export const gameWebSetupLoaderMiddleware = (async (_req, ctx) => {
 
   ctx.State.GameLookup = await getActiveGame(ctx.State);
 
-  ctx.State.GamesJWT = await loadJwtConfig().Create({
+  ctx.State.LoadGameClient = async (gameLookup, username) => {
+    const jwt = await loadJwtConfig().Create({
+      GameLookup: gameLookup,
+      Username: username ?? ctx.State.Username,
+    });
+
+    const origin = new URL(ctx.Runtime.URLMatch.Base).origin;
+
+    return await new GameServiceClient(new URL('api/', origin), jwt);
+  };
+
+  ctx.State.GameJWT = await loadJwtConfig().Create({
     GameLookup: ctx.State.GameLookup,
     Username: ctx.State.Username,
   });
 
   const origin = new URL(ctx.Runtime.URLMatch.Base).origin;
 
-  ctx.State.GamesClient = await new GameServiceClient(
+  ctx.State.GameClient = await new GameServiceClient(
     new URL('api/', origin),
-    ctx.State.GamesJWT
+    ctx.State.GameJWT
   );
 
   if (ctx.State.GameLookup) {
-    ctx.State.Game = await ctx.State.GamesClient.Games.Get();
+    ctx.State.Game = await ctx.State.GameClient.Games.Get();
   }
 
   return await ctx.Next();
