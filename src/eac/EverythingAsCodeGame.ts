@@ -9,14 +9,14 @@ import { z } from 'zod';
  * The `EverythingAsCodeGame` type is a foundational structure for storing and managing multiple game worlds, each identified by a unique key. This structure allows for organized handling of game-specific information and configurations.
  */
 export type EverythingAsCodeGame = {
-  GameWorlds: Record<string, EaCGameWorldAsCode>;
+  Worlds: Record<string, EaCGameWorldAsCode>;
 } & EverythingAsCode;
 
 /**
- * The `EverythingAsCodeGameSchema` provides a structured format for managing content and settings across multiple game worlds. The `GameWorlds` property contains entries for each game world, organized by unique keys, and associates each with an `EaCGameWorldAsCode` object to maintain specific game configurations and data. This schema supports efficient organization and retrieval of game data, suitable for AI-driven systems and content management.
+ * The `EverythingAsCodeGameSchema` provides a structured format for managing content and settings across multiple game worlds. The `Worlds` property contains entries for each game world, organized by unique keys, and associates each with an `EaCGameWorldAsCode` object to maintain specific game configurations and data. This schema supports efficient organization and retrieval of game data, suitable for AI-driven systems and content management.
  */
 export const EverythingAsCodeGameSchema = EverythingAsCodeSchema.extend({
-  GameWorlds: z
+  Worlds: z
     .record(z.string(), EaCGameWorldAsCodeSchema)
     .describe(
       'A collection of game worlds, each identified by a unique key, mapped to an `EaCGameWorldAsCode` object. This property enables organized management of game world configurations and data, supporting structured content retrieval and updates.'

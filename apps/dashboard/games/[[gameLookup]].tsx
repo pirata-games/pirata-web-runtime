@@ -61,22 +61,24 @@ export const handler: EaCRuntimeHandlerResult<
 
       gameStatus = await gamesClient.Games.Update({
         Details: { Name: name, Description: description },
-        GameWorlds: {},
+        Worlds: {},
       });
+
+      return Response.redirect(
+        ctx.Runtime.URLMatch.FromOrigin('/dashboard/games')
+      );
     } else {
       gameStatus = await ctx.State.GameClient!.Games.Create({
         Details: { Name: name, Description: description },
-        GameWorlds: {},
+        Worlds: {},
       });
+
+      gameLookup = gameStatus.EnterpriseLookup;
+
+      await setActiveGame(ctx.State, gameLookup);
+
+      return Response.redirect(ctx.Runtime.URLMatch.FromOrigin('/dashboard'));
     }
-
-    gameLookup = gameStatus.EnterpriseLookup;
-
-    await setActiveGame(ctx.State, gameLookup);
-
-    return Response.redirect(
-      ctx.Runtime.URLMatch.FromOrigin('/dashboard/games')
-    );
   },
 
   /**
@@ -113,9 +115,11 @@ export default function GamesIndex({
   Data: { Games, ActiveGameLookup },
 }: PageProps<GameIndexPageData>) {
   const [loading, setLoading] = useState(false);
+
   const [games] = useState(Games || []);
+
   const [editGame, setEditGame] = useState<EverythingAsCodeGame | undefined>(
-    undefined
+    games.length > 0 ? undefined : ({ Details: {} } as EverythingAsCodeGame)
   );
 
   /**
@@ -132,10 +136,14 @@ export default function GamesIndex({
   const handleDelete = async (gameLookup: string, gameName: string) => {
     if (confirm(`Are you sure you want to delete the '${gameName}' game?`)) {
       setLoading(true);
+
       const response = await fetch(`/dashboard/games/${gameLookup}`, {
         method: 'DELETE',
       });
-      if (response.ok) window.location.reload();
+
+      if (response.ok) {
+        window.location.reload();
+      }
     }
   };
 
@@ -149,12 +157,16 @@ export default function GamesIndex({
       confirm(`Are you sure you want to set the '${gameName}' game as active?`)
     ) {
       setLoading(true);
+
       const response = await fetch(`/dashboard/games`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ GameLookup: gameLookup }),
       });
-      if (response.ok) window.location.reload();
+
+      if (response.ok) {
+        window.location.reload();
+      }
     }
   };
 
@@ -165,7 +177,9 @@ export default function GamesIndex({
    */
   const handleFormSubmit = (event: Event) => {
     event.preventDefault();
+
     setLoading(true);
+
     (event.target as HTMLFormElement).submit();
   };
 
@@ -174,6 +188,7 @@ export default function GamesIndex({
       {!editGame && games.length > 0 ? (
         <>
           <h1 class="text-3xl font-semibold text-center my-8">Your Games</h1>
+
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {games.map((game) => (
               <div
@@ -193,7 +208,7 @@ export default function GamesIndex({
                   <Action
                     actionStyle={ActionStyleTypes.Icon}
                     class="px-4 py-2"
-                    title="Set as Active Game"
+                    title="Edit Game"
                     disabled={loading}
                     onClick={() => toggleEditGame(game)}
                   >

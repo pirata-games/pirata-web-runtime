@@ -6,7 +6,7 @@ import { EverythingAsCodeGame } from '../../eac/EverythingAsCodeGame.ts';
 
 /**
  * `GameServiceClient` is a client for managing games and game worlds within the Everything-as-Code (EaC) ecosystem.
- * This client offers CRUD operations for `Games` and `GameWorlds`, with methods to set and retrieve the active game.
+ * This client offers CRUD operations for `Games` and `Worlds`, with methods to set and retrieve the active game.
  * It extends `EaCBaseClient` for shared functionality and authorization handling.
  */
 export class GameServiceClient extends EaCBaseClient {

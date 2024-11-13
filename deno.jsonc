@@ -38,7 +38,7 @@
     // "@fathym/eac-runtime": "../../../../Fathym/source/github/fathym-deno/eac-runtime/mod.ts",
     // "@fathym/eac-runtime/workers/local": "../../../../Fathym/source/github/fathym-deno/eac-runtime/src/runtime/dfs/workers/EaCLocalDistributedFileSystemWorker.ts",
     // "@fathym/eac-runtime/workers/jsr": "../../../../Fathym/source/github/fathym-deno/eac-runtime/src/runtime/dfs/workers/EaCJSRDistributedFileSystemWorker.ts",
-    "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0.1.53",
+    "@fathym/eac-runtime": "jsr:@fathym/eac-runtime@0.1.54",
     "@fathym/ioc": "jsr:@fathym/ioc@0.0.12",
     "@fathym/synaptic": "jsr:@fathym/synaptic@0.0.187",
     "html-to-text": "npm:html-to-text@9.0.5",

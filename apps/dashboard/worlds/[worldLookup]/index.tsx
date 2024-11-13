@@ -6,11 +6,10 @@ import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { GamesWebState } from '../../../../src/state/GamesWebState.ts';
 import { markdown } from '@codemirror/lang-markdown';
 import { Tabs } from '@fathym/atomic';
-import { useState } from 'preact/hooks';
 
-export const IsIsland = true;
+// export const IsIsland = true;
 
-type GameWorldEditorPageData = {
+type WorldManagerIndexPageData = {
   ModifiedContent: string;
 
   OriginalContent: string;
@@ -18,7 +17,7 @@ type GameWorldEditorPageData = {
 
 export const handler: EaCRuntimeHandlerResult<
   GamesWebState,
-  GameWorldEditorPageData
+  WorldManagerIndexPageData
 > = {
   GET: (_req, ctx) => {
     return ctx.Render({
@@ -28,11 +27,23 @@ export const handler: EaCRuntimeHandlerResult<
         'Modified code content here...  \nOriginal code content here...  \nModified code content here...  \nOriginal code content here...  \nModified code content here...  \nOriginal code content here...  \nModified code content here...  \nOriginal code content here...  \nModified code content here...  \nOriginal code content here...  \nModified code content here...  \nOriginal code content here...  \nModified code content here...  \n',
     });
   },
+
+  /**
+   * DELETE handler - deletes a game by its lookup.
+   */
+  async DELETE(_req, ctx) {
+    const worldLookup = ctx.Params.worldLookup!;
+
+    if (worldLookup) {
+      await ctx.State.GameClient!.Worlds.Delete(worldLookup);
+    }
+    return Response.json(true);
+  },
 };
 
-export default function GameWorldEditor({
+export default function WorldManagerIndex({
   Data,
-}: PageProps<GameWorldEditorPageData>) {
+}: PageProps<WorldManagerIndexPageData>) {
   return (
     <div
       class="relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900 p-8"
@@ -52,7 +63,7 @@ export default function GameWorldEditor({
           }}
         /> */}
 
-        <Tabs
+        {/* <Tabs
           class="h-full w-full bg-slate-50 dark:bg-slate-900"
           tabsDisplay="stretch"
           tabs={[
@@ -83,7 +94,7 @@ export default function GameWorldEditor({
               ),
             },
           ]}
-        />
+        /> */}
 
         {/* <CodeMirrorSideBySideMergeEditor
           extensions={[markdown()]}
