@@ -88,6 +88,9 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
                 Hostname: 'host.docker.internal',
                 Port: config.Server.port || 7100,
               },
+              'mike-worker-keep.azurewebsites.net': {
+                Hostname: 'mike-worker-keep.azurewebsites.net',
+              },
               'pirata-web-runtime.azurewebsites.net': {
                 Hostname: 'pirata-web-runtime.azurewebsites.net',
               },
