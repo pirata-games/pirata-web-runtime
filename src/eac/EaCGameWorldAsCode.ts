@@ -4,9 +4,7 @@ import {
   EaCGameWorldDetailsSchema,
   isEaCGameWorldDetails,
 } from './EaCGameWorldDetails.ts';
-import {
-  EaCGameWorldContentRecords,
-} from './content/EaCGameWorldContentAsCode.ts';
+import { EaCGameWorldContentRecords } from './content/EaCGameWorldContentAsCode.ts';
 import z from 'zod';
 
 /**
@@ -25,10 +23,10 @@ export const EaCGameWorldAsCodeSchema = z
     Details: EaCGameWorldDetailsSchema,
   })
   .describe(
-    'The `EaCGameWorldAsCodeSchema` schema defines the structure of a game world, including essential details and a collection of content items. This schema supports organized content management, enhancing the ability to interpret and navigate the game world’s data.'
+    'The `EaCGameWorldAsCodeSchema` schema defines the structure of a game world, including essential details and a collection of content items. This schema supports organized content management, enhancing the ability to interpret and navigate the game world’s data.',
   );
 
-export type EaCGameWorldAsCodeSchema = z.infer<typeof EaCGameWorldAsCodeSchema>
+export type EaCGameWorldAsCodeSchema = z.infer<typeof EaCGameWorldAsCodeSchema>;
 
 /**
  * Utility function to check if a given object conforms to the `EaCGameWorldAsCode` structure, ensuring it includes both `Content` and valid `Details` for the game world.

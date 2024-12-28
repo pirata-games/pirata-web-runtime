@@ -1,4 +1,4 @@
-import { EaCRuntimeHandler } from '@fathym/eac-runtime';
+import { EaCRuntimeHandler } from '@fathym/eac/runtime/pipelines';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 import { gameWebSetupLoaderMiddleware } from '../../src/state/gameWebSetupLoaderMiddleware.ts';
 

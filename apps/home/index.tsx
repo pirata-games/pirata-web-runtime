@@ -1,16 +1,14 @@
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 import { Action } from '@fathym/atomic';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 
 export const IsIsland = true;
 
 // deno-lint-ignore ban-types
 type HomeIndexPageData = {};
 
-export const handler: EaCRuntimeHandlerResult<
-  GamesWebState,
-  HomeIndexPageData
-> = {
+export const handler: EaCRuntimeHandlerSet<GamesWebState, HomeIndexPageData> = {
   GET: (_req, ctx) => {
     return ctx.Render({});
   },

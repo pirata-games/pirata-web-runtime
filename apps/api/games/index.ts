@@ -1,14 +1,11 @@
-import { loadEaCSvc } from '@fathym/eac-api/client';
-import {
-  waitForStatus,
-  waitForStatusWithFreshJwt,
-} from '@fathym/eac-api/status';
-import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlers } from '@fathym/eac/runtime/pipelines';
 import { GamesAPIState } from '../../../src/state/GamesAPIState.ts';
 import {
   EverythingAsCodeGame,
   EverythingAsCodeGameSchema,
 } from '../../../src/eac/EverythingAsCodeGame.ts';
+import { loadEaCStewardSvc } from '@fathym/eac/steward/clients';
+import { waitForStatus, waitForStatusWithFreshJwt } from '@fathym/eac/steward/status';
 
 /**
  * Game API Endpoints
@@ -68,21 +65,21 @@ export default {
       }
 
       const eacGame: EverythingAsCodeGame = result.data!;
-      const parentEaCSvc = await loadEaCSvc();
+      const parentEaCSvc = await loadEaCStewardSvc();
 
       eacGame.ParentEnterpriseLookup = ctx.Runtime.EaC.EnterpriseLookup;
 
-      const createResp = await parentEaCSvc.Create(
+      const createResp = await parentEaCSvc.EaC.Create(
         eacGame,
         ctx.State.Username,
-        60
+        60,
       );
 
       const status = await waitForStatusWithFreshJwt(
         parentEaCSvc,
         createResp.EnterpriseLookup,
         createResp.CommitID,
-        ctx.State.Username
+        ctx.State.Username,
       );
 
       return Response.json(status);
@@ -122,12 +119,12 @@ export default {
 
       eacGame.ParentEnterpriseLookup = ctx.Runtime.EaC.EnterpriseLookup;
 
-      const updateResp = await ctx.State.EaCClient!.Commit(eacGame, 10);
+      const updateResp = await ctx.State.EaCClient!.EaC.Commit(eacGame, 10);
 
       const status = await waitForStatus(
         ctx.State.EaCClient!,
         updateResp.EnterpriseLookup,
-        updateResp.CommitID
+        updateResp.CommitID,
       );
 
       return Response.json(status);
@@ -152,19 +149,19 @@ export default {
    */
   async DELETE(_req, ctx) {
     try {
-      const deleteResp = await ctx.State.EaCClient!.Delete(
+      const deleteResp = await ctx.State.EaCClient!.EaC.Delete(
         {
           EnterpriseLookup: ctx.State.GameLookup!,
           ParentEnterpriseLookup: ctx.Runtime.EaC.EnterpriseLookup,
         },
         true,
-        30
+        30,
       );
 
       const status = await waitForStatus(
         ctx.State.EaCClient!,
         deleteResp.EnterpriseLookup,
-        deleteResp.CommitID
+        deleteResp.CommitID,
       );
 
       return Response.json(status);

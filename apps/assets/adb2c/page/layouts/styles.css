@@ -10,11 +10,7 @@ body {
 }
 
 /* Hide .buttons if there is a .Password in #attributeList with a disabled input */
-#api
-  form
-  #attributeList:has(.Password input:disabled)
-  ~ .buttons
-  :not(:last-child) {
+#api form #attributeList:has(.Password input:disabled) ~ .buttons :not(:last-child) {
   display: none;
 }
 

@@ -15,28 +15,26 @@ export type PirataHeaderProps = HeaderProps & {
 };
 
 export function PirataHeader(props: PirataHeaderProps) {
-  const active = (
-    <span class="bg-slate-700 bg-opacity-80 text-white shadow-inner"></span>
-  );
+  const _active = <span class='bg-slate-700 bg-opacity-80 text-white shadow-inner'></span>;
 
   return (
     <Header
       logo={
         <Action
-          href="/"
+          href='/'
           actionStyle={ActionStyleTypes.Link}
         >
-          <Logo class="h-[50px]" />
+          <Logo class='h-[50px]' />
         </Action>
       }
       nav={
         <>
-          <div class="flex-1 md:flex-none"></div>
+          <div class='flex-1 md:flex-none'></div>
 
-          <ResponsiveSet class="flex-1" toggleChildren="☰">
+          <ResponsiveSet class='flex-1' toggleChildren='☰'>
             <Action
-              href="/"
-              title="Dashboard"
+              href='/'
+              title='Dashboard'
               actionStyle={ActionStyleTypes.Link}
               class={classSet([
                 'text-lg mx-1',
@@ -47,8 +45,8 @@ export function PirataHeader(props: PirataHeaderProps) {
             </Action>
 
             <Action
-              href="/worlds"
-              title="Worlds"
+              href='/worlds'
+              title='Worlds'
               actionStyle={ActionStyleTypes.Link}
               class={classSet([
                 'text-lg mx-1',
@@ -58,18 +56,18 @@ export function PirataHeader(props: PirataHeaderProps) {
               Worlds
             </Action>
 
-            <div class="flex-1"></div>
+            <div class='flex-1'></div>
 
             <Action
-              href="/games"
-              title="Games"
+              href='/games'
+              title='Games'
               actionStyle={ActionStyleTypes.Icon}
               class={classSet([
                 'text-lg mx-1',
                 // props.currentUrl.pathname === '/' ? active.props.class : '',
               ])}
             >
-              <GameIcon class="w-6 h-6 inline-block" />
+              <GameIcon class='w-6 h-6 inline-block' />
             </Action>
 
             <ProfileMenu username={props.username} />

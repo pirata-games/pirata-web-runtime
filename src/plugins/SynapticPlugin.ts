@@ -1,10 +1,4 @@
 import {
-  EaCRuntimeConfig,
-  EaCRuntimeEaC,
-  EaCRuntimePlugin,
-  EaCRuntimePluginConfig,
-} from '@fathym/eac-runtime';
-import {
   EaCAzureOpenAIEmbeddingsDetails,
   EaCAzureOpenAILLMDetails,
   EaCLLMNeuron,
@@ -14,12 +8,17 @@ import {
   EverythingAsCodeSynaptic,
 } from '@fathym/synaptic';
 import { MessagesPlaceholder } from '@langchain/core/prompts';
+import { EaCRuntimePlugin, EaCRuntimePluginConfig } from '@fathym/eac/runtime/plugins';
+import { EaCRuntimeConfig } from '@fathym/eac/runtime/config';
+import { EverythingAsCode } from '@fathym/eac';
 
 export default class SynapticPlugin implements EaCRuntimePlugin {
   constructor() {}
 
   public Setup(_config: EaCRuntimeConfig) {
-    const pluginConfig: EaCRuntimePluginConfig = {
+    const pluginConfig: EaCRuntimePluginConfig<
+      EverythingAsCode & EverythingAsCodeSynaptic
+    > = {
       Name: SynapticPlugin.name,
       Plugins: [],
       EaC: {
@@ -132,7 +131,7 @@ export default class SynapticPlugin implements EaCRuntimePlugin {
             ],
           },
         },
-      } as EaCRuntimeEaC | EverythingAsCodeSynaptic,
+      },
     };
 
     return Promise.resolve(pluginConfig);

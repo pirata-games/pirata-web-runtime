@@ -1,7 +1,8 @@
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 
-export const handler: EaCRuntimeHandlerResult<GamesWebState> = {
+export const handler: EaCRuntimeHandlerSet<GamesWebState> = {
   async GET(_req, ctx) {
     ctx.Data.BaseURL = new URL(ctx.Runtime.URLMatch.Base).origin;
 

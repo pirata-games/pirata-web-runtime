@@ -1,11 +1,6 @@
-import {
-  CodeMirrorSideBySideMergeEditor,
-  CodeMirrorUnifiedMergeEditor,
-} from '@fathym/code-editor';
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 import { GamesWebState } from '../../../../src/state/GamesWebState.ts';
-import { markdown } from '@codemirror/lang-markdown';
-import { Tabs } from '@fathym/atomic';
 
 // export const IsIsland = true;
 
@@ -15,7 +10,7 @@ type WorldManagerIndexPageData = {
   OriginalContent: string;
 };
 
-export const handler: EaCRuntimeHandlerResult<
+export const handler: EaCRuntimeHandlerSet<
   GamesWebState,
   WorldManagerIndexPageData
 > = {
@@ -42,18 +37,19 @@ export const handler: EaCRuntimeHandlerResult<
 };
 
 export default function WorldManagerIndex({
-  Data,
+  Data: _data,
 }: PageProps<WorldManagerIndexPageData>) {
   return (
     <div
-      class="relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900 p-8"
+      class='relative w-full min-h-full h-full bg-cover bg-center bg-no-repeat bg-slate-50 dark:bg-slate-900 p-8'
       style={{
         backgroundImage: `url('/assets/pirata-forsaken-background.png')`,
         backgroundBlendMode: 'soft-light', // Or 'overlay', 'multiply', 'soft-light'
       }}
     >
-      <div class="flex items-center justify-center min-h-full h-full">
-        {/* <OverlayDiffEditor
+      <div class='flex items-center justify-center min-h-full h-full'>
+        {
+          /* <OverlayDiffEditor
           extensions={[markdown()]}
           originalContent={Data.OriginalContent}
           modifiedContent={Data.ModifiedContent}
@@ -61,9 +57,11 @@ export default function WorldManagerIndex({
             console.log('Modified Content:', newContent);
             // Save or process the modified content here
           }}
-        /> */}
+        /> */
+        }
 
-        {/* <Tabs
+        {
+          /* <Tabs
           class="h-full w-full bg-slate-50 dark:bg-slate-900"
           tabsDisplay="stretch"
           tabs={[
@@ -94,16 +92,19 @@ export default function WorldManagerIndex({
               ),
             },
           ]}
-        /> */}
+        /> */
+        }
 
-        {/* <CodeMirrorSideBySideMergeEditor
+        {
+          /* <CodeMirrorSideBySideMergeEditor
           extensions={[markdown()]}
           originalContent={Data.OriginalContent}
           modifiedContent={Data.ModifiedContent}
           onContentChange={(newContent) => {
             // setModifiedContent(newContent);
           }}
-        /> */}
+        /> */
+        }
       </div>
     </div>
   );

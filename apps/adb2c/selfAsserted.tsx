@@ -1,10 +1,11 @@
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 
 // deno-lint-ignore ban-types
 type ADB2CSelfAssertedPageData = {};
 
-export const handler: EaCRuntimeHandlerResult<
+export const handler: EaCRuntimeHandlerSet<
   GamesWebState,
   ADB2CSelfAssertedPageData
 > = {

@@ -1,8 +1,5 @@
 import { EverythingAsCode, EverythingAsCodeSchema } from '@fathym/eac';
-import {
-  EaCGameWorldAsCode,
-  EaCGameWorldAsCodeSchema,
-} from './EaCGameWorldAsCode.ts';
+import { EaCGameWorldAsCode, EaCGameWorldAsCodeSchema } from './EaCGameWorldAsCode.ts';
 import { z } from 'zod';
 
 /**
@@ -19,10 +16,10 @@ export const EverythingAsCodeGameSchema = EverythingAsCodeSchema.extend({
   Worlds: z
     .record(z.string(), EaCGameWorldAsCodeSchema)
     .describe(
-      'A collection of game worlds, each identified by a unique key, mapped to an `EaCGameWorldAsCode` object. This property enables organized management of game world configurations and data, supporting structured content retrieval and updates.'
+      'A collection of game worlds, each identified by a unique key, mapped to an `EaCGameWorldAsCode` object. This property enables organized management of game world configurations and data, supporting structured content retrieval and updates.',
     ),
 }).describe(
-  'The `EverythingAsCodeGameSchema` is a comprehensive structure for organizing and managing multiple game worlds and their configurations. It supports dynamic content management across diverse game environments, making it ideal for AI applications and content systems requiring efficient handling of game-specific data.'
+  'The `EverythingAsCodeGameSchema` is a comprehensive structure for organizing and managing multiple game worlds and their configurations. It supports dynamic content management across diverse game environments, making it ideal for AI applications and content systems requiring efficient handling of game-specific data.',
 );
 
 export type EverythingAsCodeGameSchema = z.infer<

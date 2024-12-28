@@ -1,5 +1,5 @@
 import { loadJwtConfig } from '@fathym/common/jwt';
-import { EaCRuntimeHandler } from '@fathym/eac-runtime';
+import { EaCRuntimeHandler } from '@fathym/eac/runtime/pipelines';
 import { GamesWebState } from './GamesWebState.ts';
 import { GameServiceClient } from '../api/clients/GameServiceClient.ts';
 
@@ -37,7 +37,7 @@ export const gameWebSetupLoaderMiddleware = (async (_req, ctx) => {
 
   ctx.State.GameClient = await new GameServiceClient(
     new URL('api/', origin),
-    ctx.State.GameJWT
+    ctx.State.GameJWT,
   );
 
   if (ctx.State.GameLookup) {
@@ -48,7 +48,7 @@ export const gameWebSetupLoaderMiddleware = (async (_req, ctx) => {
 }) as EaCRuntimeHandler<GamesWebState>;
 
 export async function getActiveGame(
-  state: GamesWebState
+  state: GamesWebState,
 ): Promise<string | undefined> {
   if (state.CurrentRootKey) {
     const curGameLookup = await state.GamesKV.get<string>([
@@ -64,7 +64,7 @@ export async function getActiveGame(
 
 export async function setActiveGame(
   state: GamesWebState,
-  gameLookup: string
+  gameLookup: string,
 ): Promise<void> {
   if (state.CurrentRootKey) {
     await state.GamesKV.set([...state.CurrentRootKey, 'Game'], gameLookup);

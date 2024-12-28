@@ -1,8 +1,9 @@
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
 import { GamesWebState } from '../../src/state/GamesWebState.ts';
 import PirataThinky from '../islands/organisms/PirataThinky.tsx';
 import { ChatSet } from '@fathym/atomic';
 import { PirataHeader } from '../components/organisms/PirataHeader.tsx';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 
 type LayoutPageData = {
   ActiveChat?: string;
@@ -16,7 +17,7 @@ type LayoutPageData = {
   Username: string;
 };
 
-export const handler: EaCRuntimeHandlerResult<GamesWebState, LayoutPageData> = {
+export const handler: EaCRuntimeHandlerSet<GamesWebState, LayoutPageData> = {
   GET: (_req, ctx) => {
     ctx.Data.ActiveChat = `${ctx.State.Username}-iot-event-logs`;
 
@@ -49,38 +50,38 @@ export default function DashboardLayout({
   return (
     <html>
       <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
         <title>Pirata Games - Pirata: Forsaken</title>
         <link
-          rel="shortcut icon"
-          type="image/png"
-          href="/assets/PirataForsaken.png"
+          rel='shortcut icon'
+          type='image/png'
+          href='/assets/PirataForsaken.png'
           data-eac-bypass-base
         />
 
         <link
-          href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
-          rel="stylesheet"
+          href='https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap'
+          rel='stylesheet'
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap"
-          rel="stylesheet"
+          href='https://fonts.googleapis.com/css2?family=Pirata+One&display=swap'
+          rel='stylesheet'
         />
 
         <link
-          rel="stylesheet"
+          rel='stylesheet'
           href={`/tailwind/styles.css?Revision=${Revision}`}
           data-eac-bypass-base
         />
       </head>
 
-      <body class="font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden">
-        <div class="flex flex-col h-full">
+      <body class='font-merriweather bg-slate-50 dark:bg-slate-900 text-black dark:text-white h-screen overflow-hidden'>
+        <div class='flex flex-col h-full'>
           <PirataHeader username={Data.Username} />
 
           <PirataThinky
-            class="flex-grow"
+            class='flex-grow'
             activeChat={Data.ActiveChat}
             chats={Data.Chats}
             root={Data.Root}

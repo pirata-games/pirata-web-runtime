@@ -27,7 +27,7 @@ export const EaCGameWorldContentRecords: z.ZodType<
   z
     .record(z.string(), EaCGameWorldContentAsCodeSchema)
     .describe(
-      'A hierarchical collection of content items for the game world, where each key uniquely identifies an `EaCGameWorldContentAsCode` object. This supports effective nested content organization.'
+      'A hierarchical collection of content items for the game world, where each key uniquely identifies an `EaCGameWorldContentAsCode` object. This supports effective nested content organization.',
     )
 );
 
@@ -45,7 +45,7 @@ export const EaCGameWorldContentAsCodeSchema = z
     Details: EaCGameWorldContentDetailsSchema,
   })
   .describe(
-    'Schema for game world content, incorporating main details and nested sub-content items. Supports AI and other systems in reasoning, categorizing, and navigating content within the game world.'
+    'Schema for game world content, incorporating main details and nested sub-content items. Supports AI and other systems in reasoning, categorizing, and navigating content within the game world.',
   );
 
 export type EaCGameWorldContentAsCodeSchema = z.infer<
@@ -60,7 +60,7 @@ export type EaCGameWorldContentAsCodeSchema = z.infer<
  * @returns `true` if the object matches the `EaCGameWorldContentAsCode` type; otherwise, `false`.
  */
 export function isEaCGameWorldContentAsCode(
-  eac: unknown
+  eac: unknown,
 ): eac is EaCGameWorldContentAsCode {
   const x = eac as EaCGameWorldContentAsCode;
 

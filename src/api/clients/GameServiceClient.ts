@@ -1,6 +1,6 @@
-import { EaCStatus, UserEaCRecord } from '@fathym/eac-api';
-import { EaCBaseClient } from '@fathym/eac-api/client';
 import { establishHeaders, Status } from '@fathym/common';
+import { EaCBaseClient } from '@fathym/eac/steward/clients';
+import { EaCStatus } from '@fathym/eac/steward/status';
 import { EaCGameWorldAsCode } from '../../eac/EaCGameWorldAsCode.ts';
 import { EverythingAsCodeGame } from '../../eac/EverythingAsCodeGame.ts';
 
@@ -85,7 +85,7 @@ export class GameServiceClient extends EaCBaseClient {
      * @returns {Promise<Status>} The status of the update request.
      */
     Update: async (
-      updateReq: EverythingAsCodeGame
+      updateReq: EverythingAsCodeGame,
     ): Promise<EaCStatus> => {
       const response = await fetch(this.loadClientUrl(`games`), {
         method: 'PUT',
@@ -127,7 +127,7 @@ export class GameServiceClient extends EaCBaseClient {
         {
           method: 'DELETE',
           headers: this.loadHeaders(),
-        }
+        },
       );
 
       return await this.json(response);
@@ -144,7 +144,7 @@ export class GameServiceClient extends EaCBaseClient {
         {
           method: 'GET',
           headers: this.loadHeaders(),
-        }
+        },
       );
 
       return await this.json(response);
@@ -171,7 +171,7 @@ export class GameServiceClient extends EaCBaseClient {
      */
     Update: async (
       gameWorldLookup: string,
-      updateReq: EaCGameWorldAsCode
+      updateReq: EaCGameWorldAsCode,
     ): Promise<Status> => {
       const response = await fetch(
         this.loadClientUrl(`worlds/${gameWorldLookup}`),
@@ -179,7 +179,7 @@ export class GameServiceClient extends EaCBaseClient {
           method: 'PUT',
           headers: this.loadHeaders(),
           body: JSON.stringify(updateReq),
-        }
+        },
       );
 
       return await this.json(response);
@@ -195,14 +195,14 @@ export class GameServiceClient extends EaCBaseClient {
    * @returns {HeadersInit} The final headers used for requests.
    */
   protected override loadHeaders(
-    headers: HeadersInit | undefined = undefined
+    headers: HeadersInit | undefined = undefined,
   ): HeadersInit {
     return establishHeaders(
       new Headers({
         ...(this.apiToken ? { Authorization: `Bearer ${this.apiToken}` } : {}),
         'Content-Type': 'application/json',
       }),
-      (headers as Record<string, string>) || {}
+      (headers as Record<string, string>) || {},
     );
   }
   //#endregion

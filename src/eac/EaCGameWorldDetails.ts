@@ -22,17 +22,17 @@ export const EaCGameWorldDetailsSchema = z
       .string()
       .max(750)
       .describe(
-        'A brief overview that conveys the primary background, theme, or setting of the game world. It assists both AI and users in understanding the game world’s context.'
+        'A brief overview that conveys the primary background, theme, or setting of the game world. It assists both AI and users in understanding the game world’s context.',
       ),
     Name: z
       .string()
       .max(100)
       .describe(
-        'A short title for the game world that allows for quick identification and sorting. This name serves as a clear and accessible label within the application.'
+        'A short title for the game world that allows for quick identification and sorting. This name serves as a clear and accessible label within the application.',
       ),
   })
   .describe(
-    'Schema for core game world details, including a concise name and descriptive summary. The structure supports efficient data management, comprehension, and interaction by AI agents and end users.'
+    'Schema for core game world details, including a concise name and descriptive summary. The structure supports efficient data management, comprehension, and interaction by AI agents and end users.',
   );
 
 export type EaCGameWorldDetailsSchema = z.infer<
@@ -48,7 +48,7 @@ export type EaCGameWorldDetailsSchema = z.infer<
  * @returns `true` if the object conforms to `EaCGameWorldDetails`; otherwise, `false`.
  */
 export function isEaCGameWorldDetails(
-  details: unknown
+  details: unknown,
 ): details is EaCGameWorldDetails {
   const x = details as EaCGameWorldDetails;
 

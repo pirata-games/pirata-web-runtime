@@ -1,11 +1,6 @@
-import { loadEaCSvc } from '@fathym/eac-api/client';
-import { waitForStatusWithFreshJwt } from '@fathym/eac-api/status';
-import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlers } from '@fathym/eac/runtime/pipelines';
 import { GamesAPIState } from '../../../src/state/GamesAPIState.ts';
-import {
-  EverythingAsCodeGame,
-  EverythingAsCodeGameSchema,
-} from '../../../src/eac/EverythingAsCodeGame.ts';
+import { loadEaCStewardSvc } from '@fathym/eac/steward/clients';
 
 /**
  * Handlers for managing the lifecycle of games within the Everything as Code (EaC) ecosystem.
@@ -28,27 +23,27 @@ export default {
    */
   async GET(_req, ctx) {
     try {
-      const parentEaCSvc = await loadEaCSvc();
+      const parentEaCSvc = await loadEaCStewardSvc();
       const parentEntLookup = ctx.Runtime.EaC.EnterpriseLookup;
 
-      const userEaCRecords = await parentEaCSvc.ListForUser(
+      const userEaCRecords = await parentEaCSvc.EaC.ListForUser(
         ctx.State.Username,
-        parentEntLookup
+        parentEntLookup,
       );
 
       const games = await Promise.all(
         userEaCRecords.map(async (record) => {
-          const jwt = await parentEaCSvc.JWT(
+          const jwt = await parentEaCSvc.EaC.JWT(
             record.EnterpriseLookup,
-            ctx.State.Username
+            ctx.State.Username,
           );
 
-          const eacSvc = await loadEaCSvc(jwt.Token);
+          const eacSvc = await loadEaCStewardSvc(jwt.Token);
 
-          const game = await eacSvc.Get(record.EnterpriseLookup);
+          const game = await eacSvc.EaC.Get(record.EnterpriseLookup);
 
           return game;
-        })
+        }),
       );
 
       return Response.json(games);

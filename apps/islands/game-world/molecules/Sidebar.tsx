@@ -30,10 +30,10 @@ export default function Sidebar({ items, title, ...props }: SidebarProps) {
         key={item.id}
         class={`space-y-2 ${indentLevel > 0 ? `ml-${indentLevel * 2}` : ''}`}
       >
-        <div class="flex items-center">
+        <div class='flex items-center'>
           <a
             href={item.href}
-            class="flex-1 p-2 rounded hover:bg-slate-700 hover:text-white transition"
+            class='flex-1 p-2 rounded hover:bg-slate-700 hover:text-white transition'
           >
             {item.title}
           </a>
@@ -41,7 +41,7 @@ export default function Sidebar({ items, title, ...props }: SidebarProps) {
           {item.children && (
             <button
               onClick={() => toggleExpand(item.id)}
-              class="ml-2 p-2 rounded hover:bg-slate-700 transition"
+              class='ml-2 p-2 rounded hover:bg-slate-700 transition'
             >
               {expanded[item.id] ? '-' : '+'}
             </button>
@@ -49,7 +49,7 @@ export default function Sidebar({ items, title, ...props }: SidebarProps) {
         </div>
 
         {expanded[item.id] && item.children && (
-          <div class="space-y-2 mt-2">
+          <div class='space-y-2 mt-2'>
             {renderSidebarItems(item.children, indentLevel + 1)}
           </div>
         )}
@@ -62,12 +62,12 @@ export default function Sidebar({ items, title, ...props }: SidebarProps) {
       {...props}
       class={classSet(
         ['w-64 h-full bg-[rgba(30,41,59,0.8)] text-white flex flex-col p-4'],
-        props
+        props,
       )}
     >
-      <h2 class="text-xl font-semibold mb-6">{title}</h2>
+      <h2 class='text-xl font-semibold mb-6'>{title}</h2>
 
-      <div class="space-y-2">{renderSidebarItems(items)}</div>
+      <div class='space-y-2'>{renderSidebarItems(items)}</div>
     </nav>
   );
 }

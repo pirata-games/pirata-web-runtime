@@ -1,10 +1,10 @@
-import { EaCServiceClient } from '@fathym/eac-api/client';
+import { EaCStewardClient } from '@fathym/eac/steward/clients';
 import { EverythingAsCodeGame } from '../eac/EverythingAsCodeGame.ts';
 
 export type GamesAPIState = {
   EaCJWT?: string;
 
-  EaCClient?: EaCServiceClient;
+  EaCClient?: EaCStewardClient;
 
   Game?: EverythingAsCodeGame;
 

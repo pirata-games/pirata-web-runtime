@@ -9,7 +9,7 @@ import z from 'zod';
  * @template TType - An optional string type for defining specific content types.
  */
 export type EaCGameWorldContentDetails<
-  TType extends string | undefined = string
+  TType extends string | undefined = string,
 > = {
   /**
    * The type of the content (e.g., "Text"). This property allows for content-specific categorization and future extensibility.
@@ -31,22 +31,22 @@ export const EaCGameWorldContentDetailsSchema = z
       .string()
       .max(750)
       .describe(
-        'A concise abstract summarizing the content, intended to help AI agents understand the context. Should be 3-7 sentences, focusing on key points.'
+        'A concise abstract summarizing the content, intended to help AI agents understand the context. Should be 3-7 sentences, focusing on key points.',
       ),
     Name: z
       .string()
       .max(100)
       .describe(
-        'A short, descriptive title for the content, ideally under 100 characters, summarizing its main focus.'
+        'A short, descriptive title for the content, ideally under 100 characters, summarizing its main focus.',
       ),
     Type: z
       .string()
       .describe(
-        'Specifies the content type (e.g., "Text") to allow for categorization and possible future expansion to additional types.'
+        'Specifies the content type (e.g., "Text") to allow for categorization and possible future expansion to additional types.',
       ),
   })
   .describe(
-    'Schema for the essential details of game world content, including title, description, and content type. Supports AI-driven categorization, interpretation, and navigation of game world information.'
+    'Schema for the essential details of game world content, including title, description, and content type. Supports AI-driven categorization, interpretation, and navigation of game world information.',
   );
 
 export type EaCGameWorldContentDetailsSchema = z.infer<
@@ -63,7 +63,7 @@ export type EaCGameWorldContentDetailsSchema = z.infer<
  */
 export function isEaCGameWorldContentDetails<TType extends string>(
   type: TType | undefined,
-  details: unknown
+  details: unknown,
 ): details is EaCGameWorldContentDetails<TType> {
   const x = details as EaCGameWorldContentDetails<TType>;
 

@@ -1,28 +1,4 @@
-import {
-  EaCRuntimeConfig,
-  EaCRuntimeEaC,
-  EaCRuntimePlugin,
-  EaCRuntimePluginConfig,
-  FathymAzureContainerCheckPlugin,
-  FathymDFSFileHandlerPlugin,
-  FathymEaCServicesPlugin,
-} from '@fathym/eac-runtime';
-import {
-  EaCAPIProcessor,
-  EaCBaseHREFModifierDetails,
-  EaCDFSProcessor,
-  EaCJWTValidationModifierDetails,
-  EaCKeepAliveModifierDetails,
-  EaCOAuthModifierDetails,
-  EaCOAuthProcessor,
-  EaCPreactAppProcessor,
-  EaCTailwindProcessor,
-} from '@fathym/eac/applications';
-import {
-  EaCJSRDistributedFileSystemDetails,
-  EaCLocalDistributedFileSystemDetails,
-} from '@fathym/eac/dfs';
-import { EaCDenoKVDatabaseDetails } from '@fathym/eac/databases';
+// deno-lint-ignore-file no-explicit-any
 import { EaCAtomicIconsProcessor } from '@fathym/atomic-icons';
 import { FathymAtomicIconsPlugin } from '@fathym/atomic-icons/plugin';
 import {
@@ -33,17 +9,50 @@ import {
 import { DefaultMyCoreProcessorHandlerResolver } from './DefaultMyCoreProcessorHandlerResolver.ts';
 import { IoCContainer } from '@fathym/ioc';
 import SynapticPlugin from './SynapticPlugin.ts';
-import { EaCAzureADB2CProviderDetails } from '@fathym/eac/identity';
+import { EaCAzureADB2CProviderDetails, EverythingAsCodeIdentity } from '@fathym/eac-identity';
+import { EaCRuntimePlugin, EaCRuntimePluginConfig } from '@fathym/eac/runtime/plugins';
+import { EaCRuntimeConfig } from '@fathym/eac/runtime/config';
+import {
+  FathymAzureContainerCheckPlugin,
+  FathymDFSFileHandlerPlugin,
+  FathymEaCDenoKVPlugin,
+} from '@fathym/eac-applications/runtime/plugins';
+import {
+  EaCAPIProcessor,
+  EaCDFSProcessor,
+  EaCOAuthProcessor,
+  EaCPreactAppProcessor,
+  EaCTailwindProcessor,
+} from '@fathym/eac-applications/processors';
+import { EaCDenoKVDetails, EverythingAsCodeDenoKV } from '@fathym/eac-deno-kv';
+import {
+  EaCJSRDistributedFileSystemDetails,
+  EaCLocalDistributedFileSystemDetails,
+} from '@fathym/eac-dfs';
+import {
+  EaCBaseHREFModifierDetails,
+  EaCJWTValidationModifierDetails,
+  EaCKeepAliveModifierDetails,
+  EaCOAuthModifierDetails,
+} from '@fathym/eac-applications/modifiers';
+import { EverythingAsCode } from '@fathym/eac';
+import { EverythingAsCodeApplications } from '@fathym/eac-applications';
 
 export default class RuntimePlugin implements EaCRuntimePlugin {
   constructor() {}
 
   public Setup(config: EaCRuntimeConfig) {
-    const pluginConfig: EaCRuntimePluginConfig = {
+    const pluginConfig: EaCRuntimePluginConfig<
+      & EverythingAsCode
+      & EverythingAsCodeSynaptic
+      & EverythingAsCodeApplications
+      & EverythingAsCodeDenoKV
+      & EverythingAsCodeIdentity
+    > = {
       Name: RuntimePlugin.name,
       Plugins: [
         new FathymAzureContainerCheckPlugin(),
-        new FathymEaCServicesPlugin(),
+        new FathymEaCDenoKVPlugin(),
         new FathymDFSFileHandlerPlugin(),
         new FathymAtomicIconsPlugin(),
         new SynapticPlugin(),
@@ -82,11 +91,9 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               'pirata-web-runtime.azurewebsites.net': {
                 Hostname: 'pirata-web-runtime.azurewebsites.net',
               },
-              'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net':
-                {
-                  Hostname:
-                    'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net',
-                },
+              'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net': {
+                Hostname: 'pirata-web-runtime-btd6bebdfue9hkbt.westus2-01.azurewebsites.net',
+              },
               'pirata.games': {
                 Hostname: 'pirata.games',
               },
@@ -184,15 +191,9 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               CacheControl: {
                 'text\\/html': `private, max-age=${60 * 5}`,
                 'image\\/': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
-                'application\\/javascript': `public, max-age=${
-                  60 * 60 * 24 * 365
-                }, immutable`,
-                'application\\/typescript': `public, max-age=${
-                  60 * 60 * 24 * 365
-                }, immutable`,
-                'text\\/css': `public, max-age=${
-                  60 * 60 * 24 * 365
-                }, immutable`,
+                'application\\/javascript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
+                'application\\/typescript': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
+                'text\\/css': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
               },
             } as EaCDFSProcessor,
           },
@@ -207,15 +208,12 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Config: {
                 IconSet: {
                   IconMap: {
-                    activate:
-                      'https://api.iconify.design/lucide:list-start.svg',
+                    activate: 'https://api.iconify.design/lucide:list-start.svg',
                     add: 'https://api.iconify.design/gg:add.svg',
                     begin: 'https://api.iconify.design/fe:beginner.svg',
-                    check:
-                      'https://api.iconify.design/lets-icons:check-fill.svg',
+                    check: 'https://api.iconify.design/lets-icons:check-fill.svg',
                     copy: 'https://api.iconify.design/solar:copy-outline.svg',
-                    delete:
-                      'https://api.iconify.design/material-symbols-light:delete.svg',
+                    delete: 'https://api.iconify.design/material-symbols-light:delete.svg',
                     edit: 'https://api.iconify.design/mdi:edit.svg',
                     game: 'https://api.iconify.design/token:game.svg',
                     loading: 'https://api.iconify.design/mdi:loading.svg',
@@ -315,9 +313,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               ConfigPath: './tailwind.config.ts',
               StylesTemplatePath: './apps/tailwind/styles.css',
               CacheControl: {
-                'text\\/css': `public, max-age=${
-                  60 * 60 * 24 * 365
-                }, immutable`,
+                'text\\/css': `public, max-age=${60 * 60 * 24 * 365}, immutable`,
               },
             } as EaCTailwindProcessor,
           },
@@ -325,15 +321,15 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
         AIs: {},
         Circuits: {
           $circuitsDFSLookups: ['local:circuits'],
-        },
-        Databases: {
+        } as any,
+        DenoKVs: {
           cache: {
             Details: {
               Type: 'DenoKV',
               Name: 'Local Cache',
               Description: 'The Deno KV database to use for local caching',
               DenoKVPath: Deno.env.get('LOCAL_CACHE_DENO_KV_PATH') || undefined,
-            } as EaCDenoKVDatabaseDetails,
+            } as EaCDenoKVDetails,
           },
           game: {
             Details: {
@@ -341,7 +337,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Name: 'EaC DB',
               Description: 'The Deno KV database to use for local caching',
               DenoKVPath: Deno.env.get('GAME_DENO_KV_PATH') || undefined,
-            } as EaCDenoKVDatabaseDetails,
+            } as EaCDenoKVDetails,
           },
           oauth: {
             Details: {
@@ -349,7 +345,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Name: 'OAuth DB',
               Description: 'The Deno KV database to use for local caching',
               DenoKVPath: Deno.env.get('OAUTH_DENO_KV_PATH') || undefined,
-            } as EaCDenoKVDatabaseDetails,
+            } as EaCDenoKVDetails,
           },
           thinky: {
             Details: {
@@ -357,7 +353,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Name: 'Thinky',
               Description: 'The Deno KV database to use for thinky',
               DenoKVPath: Deno.env.get('THINKY_DENO_KV_PATH') || undefined,
-            } as EaCDenoKVDatabaseDetails,
+            } as EaCDenoKVDetails,
           },
         },
         DFSs: {
@@ -365,9 +361,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Type: 'Local',
               FileRoot: './apps/adb2c/',
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/api': {
@@ -376,18 +370,14 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './apps/api/',
               DefaultFile: 'index.ts',
               Extensions: ['ts'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/assets': {
             Details: {
               Type: 'Local',
               FileRoot: './apps/assets/',
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/components': {
@@ -395,9 +385,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'Local',
               FileRoot: './apps/components/',
               Extensions: ['tsx'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/dashboard': {
@@ -406,9 +394,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './apps/dashboard/',
               DefaultFile: 'index.tsx',
               Extensions: ['tsx'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/home': {
@@ -417,9 +403,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               FileRoot: './apps/home/',
               DefaultFile: 'index.tsx',
               Extensions: ['tsx'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:apps/islands': {
@@ -427,9 +411,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'Local',
               FileRoot: './apps/islands/',
               Extensions: ['tsx'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'local:circuits': {
@@ -437,9 +419,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'Local',
               FileRoot: './circuits/',
               Extensions: ['.ts'],
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/local'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/local'),
             } as EaCLocalDistributedFileSystemDetails,
           },
           'jsr:@fathym/atomic': {
@@ -447,9 +427,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'JSR',
               Package: '@fathym/atomic',
               Version: '',
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/jsr'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/jsr'),
             } as EaCJSRDistributedFileSystemDetails,
           },
           'jsr:@fathym/atomic-design-kit': {
@@ -457,9 +435,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
               Type: 'JSR',
               Package: '@fathym/atomic-design-kit',
               Version: '',
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/jsr'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/jsr'),
             } as EaCJSRDistributedFileSystemDetails,
           },
           'jsr:@fathym/code-editor': {
@@ -468,16 +444,14 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             //   FileRoot: '../../../../../../Fathym/source/github/fathym-deno/code-editor/',
             //   Extensions: ['.tsx'],
             //   WorkerPath: import.meta.resolve(
-            //     '@fathym/eac-runtime/workers/local',
+            //     '@fathym/eac-dfs/workers/local',
             //   ),
             // } as EaCLocalDistributedFileSystemDetails,
             Details: {
               Type: 'JSR',
               Package: '@fathym/code-editor',
               Version: '',
-              WorkerPath: import.meta.resolve(
-                '@fathym/eac-runtime/workers/jsr'
-              ),
+              WorkerPath: import.meta.resolve('@fathym/eac-dfs/workers/jsr'),
             } as EaCJSRDistributedFileSystemDetails,
           },
         },
@@ -486,16 +460,14 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Type: 'BaseHREF',
               Name: 'Base HREF',
-              Description:
-                'Adjusts the base HREF of a response based on configureation.',
+              Description: 'Adjusts the base HREF of a response based on configureation.',
             } as EaCBaseHREFModifierDetails,
           },
           keepAlive: {
             Details: {
               Type: 'KeepAlive',
               Name: 'Deno KV Cache',
-              Description:
-                'Lightweight cache to use that stores data in a DenoKV database.',
+              Description: 'Lightweight cache to use that stores data in a DenoKV database.',
               KeepAlivePath: '/_eac/alive',
             } as EaCKeepAliveModifierDetails,
           },
@@ -510,8 +482,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             Details: {
               Type: 'OAuth',
               Name: 'OAuth',
-              Description:
-                'Used to restrict user access to various applications.',
+              Description: 'Used to restrict user access to various applications.',
               ProviderLookup: 'adb2c',
               SignInPath: '/oauth/signin',
             } as EaCOAuthModifierDetails,
@@ -522,8 +493,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             DatabaseLookup: 'oauth',
             Details: {
               Name: 'Azure ADB2C OAuth Provider',
-              Description:
-                'The provider used to connect with our azure adb2c instance',
+              Description: 'The provider used to connect with our azure adb2c instance',
               ClientID: Deno.env.get('AZURE_ADB2C_CLIENT_ID')!,
               ClientSecret: Deno.env.get('AZURE_ADB2C_CLIENT_SECRET')!,
               Scopes: ['openid', Deno.env.get('AZURE_ADB2C_CLIENT_ID')!],
@@ -534,7 +504,7 @@ export default class RuntimePlugin implements EaCRuntimePlugin {
             } as EaCAzureADB2CProviderDetails,
           },
         },
-      } as EaCRuntimeEaC | EverythingAsCodeSynaptic,
+      },
     };
 
     pluginConfig.IoC!.Register(DefaultMyCoreProcessorHandlerResolver, {

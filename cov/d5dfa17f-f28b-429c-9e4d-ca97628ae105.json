@@ -1,0 +1,11 @@
+{
+  "scriptId": "317",
+  "url": "file:///C:/MileHighInteractive/Source/pirata-games/pirata-web-runtime/tests/tests.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 31, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

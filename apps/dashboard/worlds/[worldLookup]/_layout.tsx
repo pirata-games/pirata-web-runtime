@@ -1,8 +1,7 @@
 import { EaCEnterpriseDetails } from '@fathym/eac';
-import { EaCRuntimeHandlerResult, PageProps } from '@fathym/eac-runtime';
-import Sidebar, {
-  SidebarItem,
-} from '../../../islands/game-world/molecules/Sidebar.tsx';
+import { EaCRuntimeHandlerSet } from '@fathym/eac/runtime/pipelines';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
+import Sidebar, { SidebarItem } from '../../../islands/game-world/molecules/Sidebar.tsx';
 import { GamesWebState } from '../../../../src/state/GamesWebState.ts';
 import { EaCGameWorldDetails } from '../../../../src/eac/EaCGameWorldDetails.ts';
 
@@ -14,7 +13,7 @@ type LayoutPageData = {
   SidebarItems: SidebarItem[];
 };
 
-export const handler: EaCRuntimeHandlerResult<GamesWebState, LayoutPageData> = {
+export const handler: EaCRuntimeHandlerSet<GamesWebState, LayoutPageData> = {
   GET: (_req, ctx) => {
     const worldLookup = ctx.Params.worldLookup!;
 
@@ -77,14 +76,14 @@ export default function DashboardWorldsLayout({
   Component,
 }: PageProps<LayoutPageData>) {
   return (
-    <div class="flex flex-row h-full">
+    <div class='flex flex-row h-full'>
       <Sidebar
         title={`${Data.Game.Name}: ${Data.GameWorld.Name}`}
         items={Data.SidebarItems}
-        class="w-[90%] max-w-xs h-full"
+        class='w-[90%] max-w-xs h-full'
       />
 
-      <main class="flex-grow w-full overflow-y-auto">
+      <main class='flex-grow w-full overflow-y-auto'>
         <Component />
       </main>
     </div>

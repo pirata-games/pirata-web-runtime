@@ -1,4 +1,4 @@
-import { PageProps } from '@fathym/eac-runtime';
+import { PageProps } from '@fathym/eac-applications/runtime/preact';
 
 export default function Layout({
   Data: _Data,

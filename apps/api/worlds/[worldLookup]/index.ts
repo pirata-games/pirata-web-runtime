@@ -1,9 +1,9 @@
 import { NullableArrayOrObject } from '@fathym/common';
-import { waitForStatus } from '@fathym/eac-api/status';
-import { EaCRuntimeHandlers } from '@fathym/eac-runtime';
+import { EaCRuntimeHandlers } from '@fathym/eac/runtime/pipelines';
 import { EaCGameWorldAsCode } from '../../../../src/eac/EaCGameWorldAsCode.ts';
 import { EverythingAsCodeGame } from '../../../../src/eac/EverythingAsCodeGame.ts';
 import { GamesAPIState } from '../../../../src/state/GamesAPIState.ts';
+import { waitForStatus } from '@fathym/eac/steward/status';
 
 export default {
   /** Deletes a specific game world and its contents */
@@ -11,24 +11,22 @@ export default {
     try {
       const worldLookup = ctx.Params.worldLookup!;
 
-      const deleteResp =
-        await ctx.State.EaCClient!.Delete<EverythingAsCodeGame>(
-          {
-            EnterpriseLookup: ctx.State.GameLookup!,
-            ParentEnterpriseLookup: ctx.Runtime.EaC.EnterpriseLookup,
-            Worlds: {
-              [worldLookup]:
-                null as unknown as NullableArrayOrObject<EaCGameWorldAsCode>,
-            },
+      const deleteResp = await ctx.State.EaCClient!.EaC.Delete<EverythingAsCodeGame>(
+        {
+          EnterpriseLookup: ctx.State.GameLookup!,
+          ParentEnterpriseLookup: ctx.Runtime.EaC.EnterpriseLookup,
+          Worlds: {
+            [worldLookup]: null as unknown as NullableArrayOrObject<EaCGameWorldAsCode>,
           },
-          false,
-          30
-        );
+        },
+        false,
+        30,
+      );
 
       const status = await waitForStatus(
         ctx.State.EaCClient!,
         deleteResp.EnterpriseLookup,
-        deleteResp.CommitID
+        deleteResp.CommitID,
       );
 
       return Response.json(status);

@@ -16,7 +16,7 @@ export type GamesWebState = {
 
   LoadGameClient: (
     gameLookup: string,
-    username?: string
+    username?: string,
   ) => Promise<GameServiceClient>;
 
   Username?: string;

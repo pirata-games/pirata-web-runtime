@@ -25,17 +25,16 @@ export type EaCGameWorldTextContentDetails = {
  * - `Paragraphs`: An array of non-empty strings, each representing a paragraph, allowing for
  *    organized sequential content.
  */
-export const EaCGameWorldTextContentDetailsSchema =
-  EaCGameWorldContentDetailsSchema.extend({
-    Paragraphs: z
-      .array(z.string())
-      .nonempty()
-      .describe(
-        'An array of paragraphs that make up the structured text content, enabling organized and sequential data storage.'
-      ),
-  }).describe(
-    'Schema for structured text content in game worlds, extending the core content schema with an array of paragraphs. Ideal for AI-driven text parsing, organization, and retrieval in game contexts.'
-  );
+export const EaCGameWorldTextContentDetailsSchema = EaCGameWorldContentDetailsSchema.extend({
+  Paragraphs: z
+    .array(z.string())
+    .nonempty()
+    .describe(
+      'An array of paragraphs that make up the structured text content, enabling organized and sequential data storage.',
+    ),
+}).describe(
+  'Schema for structured text content in game worlds, extending the core content schema with an array of paragraphs. Ideal for AI-driven text parsing, organization, and retrieval in game contexts.',
+);
 
 export type EaCGameWorldTextContentDetailsSchema = z.infer<
   typeof EaCGameWorldTextContentDetailsSchema
@@ -49,7 +48,7 @@ export type EaCGameWorldTextContentDetailsSchema = z.infer<
  * @returns `true` if the object matches `EaCGameWorldTextContentDetails`; otherwise, `false`.
  */
 export function isEaCGameWorldTextContentDetails(
-  details: unknown
+  details: unknown,
 ): details is EaCGameWorldTextContentDetails {
   const x = details as EaCGameWorldTextContentDetails;
 
